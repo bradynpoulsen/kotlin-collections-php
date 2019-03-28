@@ -1,0 +1,26 @@
+{
+    "name": "bradynpoulsen/kotlin-collections",
+    "description": "Collection and Sequence APIs inspired by the Kotlin Standard Library",
+    "type": "library",
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Bradyn Poulsen",
+            "email": "bradyn@bradynpoulsen.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "BradynPoulsen\\Kotlin\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}

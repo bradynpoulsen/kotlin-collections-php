@@ -56,7 +56,7 @@ interface ListOf extends Collection, ArrayAccess
     public function getIterator(): Traversable;
 
     /**
-     * {@see ArrayAccess} equivalent of {@example $list->indexOf($element) !== -1}
+     * {@see ArrayAccess} equivalent of {@example $list->indexOfFirst($element) !== -1}
      *
      * @param mixed $index
      * @return bool

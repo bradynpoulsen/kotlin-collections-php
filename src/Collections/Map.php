@@ -5,6 +5,7 @@ namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
 use BadMethodCallException;
+use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\UnsupportedOperationException;
 
 /**
@@ -21,14 +22,14 @@ interface Map extends IterableOf, ArrayAccess
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.
      */
-    public function getKeyType(): string;
+    public function getKeyType(): Type;
 
     /**
      * Get the type name allowed for values of this map.
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.
      */
-    public function getValueType(): string;
+    public function getValueType(): Type;
 
     /**
      * Returns the number of key/value pairs in the map.

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Collections;
 
+use BradynPoulsen\Kotlin\Types\Type;
+
 /**
  * Represents a key/value pair held by a {@see Map}.
  * The type of map keys is available through {@see MapEntry::getKeyType()} and is invariant.
@@ -15,14 +17,14 @@ interface MapEntry
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.
      */
-    public function getKeyType(): string;
+    public function getKeyType(): Type;
 
     /**
      * Get the type name allowed for values of this map.
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.
      */
-    public function getValueType(): string;
+    public function getValueType(): Type;
 
     /**
      * Returns the key of this key/value pair.

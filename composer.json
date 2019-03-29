@@ -20,6 +20,11 @@
             "BradynPoulsen\\Kotlin\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "BradynPoulsen\\Kotlin\\": "tests"
+        }
+    },
     "scripts": {
         "test": "vendor/bin/phpunit"
     }

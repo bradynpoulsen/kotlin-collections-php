@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Sequences;
 
 use BradynPoulsen\Kotlin\InvalidStateException;
+use BradynPoulsen\Kotlin\Types\Type;
 use IteratorAggregate;
 use Traversable;
 
@@ -24,7 +25,7 @@ interface Sequence extends IteratorAggregate
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.
      */
-    public function getType(): string;
+    public function getType(): Type;
 
     /**
      * Returns an iterator over the values in this sequence.

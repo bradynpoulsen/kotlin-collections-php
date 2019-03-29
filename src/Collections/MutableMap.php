@@ -88,7 +88,7 @@ interface MutableMap extends Map
     public function getEntries(): Set;
 
     /**
-     * {@see ArrayAccess} alias of {@see MutableMap::put()}
+     * {@see ArrayAccess} equivalent of {@see MutableMap::put()}
      *
      * @param mixed $key
      * @param mixed $value
@@ -99,7 +99,7 @@ interface MutableMap extends Map
     public function offsetSet($key, $value): void;
 
     /**
-     * {@see ArrayAccess} alias of {@see MutableMap::remove()}
+     * {@see ArrayAccess} equivalent of {@see MutableMap::remove()}
      *
      * @param mixed $key
      *

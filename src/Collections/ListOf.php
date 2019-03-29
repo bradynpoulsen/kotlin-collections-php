@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
-use BadMethodCallException;
 use BradynPoulsen\Kotlin\NoSuchElementException;
 use BradynPoulsen\Kotlin\UnsupportedOperationException;
 use Traversable;

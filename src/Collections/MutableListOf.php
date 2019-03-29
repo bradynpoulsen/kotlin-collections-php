@@ -82,7 +82,7 @@ interface MutableListOf extends ListOf, MutableCollection
     public function removeAt(int $index);
 
     /**
-     * {@see ArrayAccess} alias of {@see MutableListOf::set()}
+     * {@see ArrayAccess} equivalent of {@see MutableListOf::set()}
      *
      * @param int $index
      * @param mixed $value
@@ -92,7 +92,7 @@ interface MutableListOf extends ListOf, MutableCollection
     public function offsetSet($index, $value): void;
 
     /**
-     * {@see ArrayAccess} alias of {@see MutableListOf::removeAt()}
+     * {@see ArrayAccess} equivalent of {@see MutableListOf::removeAt()}
      *
      * @param int $index
      *

@@ -3,16 +3,18 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Collections;
 
+use Countable;
+
 /**
  * A generic collection of elements.
  * The type of elements is available through {@see Collection::getType()} and is covariant.
  */
-interface Collection extends IterableOf
+interface Collection extends Countable, IterableOf
 {
     /**
      * Returns the size of the collection.
      */
-    public function getSize(): int;
+    public function count(): int;
 
     /**
      * Returns `true` if the collection is empty (contains no elements), `false` otherwise.

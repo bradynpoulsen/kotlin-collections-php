@@ -30,24 +30,32 @@ interface ListOf extends Collection, ArrayAccess
     public function get(int $index);
 
     /**
+     * Checks if the specified $index is contained in this collection.
+     *
+     * @param int $index
+     * @return bool
+     */
+    public function containsIndex(int $index): bool;
+
+    /**
      * Get the index of the first occurrence of the specified $element.
      *
      * @param $element
-     * @return int the index of the first occurrence, or `-1` if not contained.
+     * @return int|null the index of the first occurrence, or `null` if not contained.
      *
      * @see ListOf::getType()
      */
-    public function indexOfFirst($element): int;
+    public function indexOfFirst($element): ?int;
 
     /**
      * Get the index of the last occurrence of the specified $element.
      *
      * @param $element
-     * @return int the index of the last occurrence, or `-1` if not contained.
+     * @return int|null the index of the last occurrence, or `null` if not contained.
      *
      * @see ListOf::getType()
      */
-    public function indexOfLast($element): int;
+    public function indexOfLast($element): ?int;
 
     /**
      * Returns an iterator over the elements in this list in proper sequence.
@@ -55,7 +63,7 @@ interface ListOf extends Collection, ArrayAccess
     public function getIterator(): Traversable;
 
     /**
-     * {@see ArrayAccess} equivalent of {@example 0 <= $index && $index < $list->getSize()}
+     * {@see ArrayAccess} equivalent of {@see ListOf::containsIndex()}
      *
      * @param int $index
      * @return bool

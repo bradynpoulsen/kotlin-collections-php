@@ -16,7 +16,7 @@ trait TypeAssuranceTrait
     /**
      * Type-safe way to ensure this trait is used on an instance of Type
      */
-    private function thisType(): Type
+    private function TypeAssuranceTrait_this(): Type
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this;
@@ -33,9 +33,9 @@ trait TypeAssuranceTrait
      */
     public function ensureCovariantValue(int $argument, $value, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isCovariantValue($value)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::COVARIANT,
@@ -56,9 +56,9 @@ trait TypeAssuranceTrait
      */
     public function ensureContravariantValue(int $argument, $value, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isContravariantValue($value)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::CONTRAVARIANT,
@@ -79,9 +79,9 @@ trait TypeAssuranceTrait
      */
     public function ensureInvariantValue(int $argument, $value, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isInvariantValue($value)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::INVARIANT,
@@ -102,9 +102,9 @@ trait TypeAssuranceTrait
      */
     public function ensureCovariantType(int $argument, Type $other, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isCovariantType($other)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::COVARIANT,
@@ -126,9 +126,9 @@ trait TypeAssuranceTrait
      */
     public function ensureContravariantType(int $argument, Type $other, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isContravariantType($other)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::CONTRAVARIANT,
@@ -150,9 +150,9 @@ trait TypeAssuranceTrait
      */
     public function ensureInvariantType(int $argument, Type $other, string $typeWrapper = ''): void
     {
-        $type = $this->thisType();
+        $type = $this->TypeAssuranceTrait_this();
         if (!$type->isInvariantType($other)) {
-            throw $this->createTypeError(
+            throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
                 TypeVariance::INVARIANT,
@@ -163,7 +163,7 @@ trait TypeAssuranceTrait
         }
     }
 
-    private function createTypeError(
+    private function TypeAssuranceTrait_createTypeError(
         int $argument,
         string $expectedType,
         int $expectedVariance,

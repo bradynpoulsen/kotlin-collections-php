@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Collections;
 
+use Traversable;
+
 /**
  * A modifiable {@see Map}.
  * The type of map keys is available through {@see MutableMap::getKeyType()} and is invariant.
@@ -86,6 +88,13 @@ interface MutableMap extends Map
      * @return MutableSet|MutableMapEntry[]
      */
     public function getEntries(): Set;
+
+    /**
+     * Returns an iterator over the key/value pairs in this map.
+     *
+     * @return Traversable|MutableMapEntry[]
+     */
+    public function getIterator(): Traversable;
 
     /**
      * {@see ArrayAccess} equivalent of {@see MutableMap::put()}

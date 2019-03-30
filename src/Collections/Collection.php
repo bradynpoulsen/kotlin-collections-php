@@ -40,6 +40,16 @@ interface Collection extends IterableOf
     public function containsAll(Collection $elements): bool;
 
     /**
+     * Checks if any elements in the specified collection are contained in this collection.
+     *
+     * @param Collection|mixed[] $elements
+     * @return bool
+     *
+     * @see Collection::getType()
+     */
+    public function containsAny(Collection $elements): bool;
+
+    /**
      * Returns the elements in this collection as an array.
      *
      * @return mixed[]

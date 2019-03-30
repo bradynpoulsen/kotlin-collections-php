@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Types;
+namespace BradynPoulsen\Kotlin\Types\Internal;
 
 use BradynPoulsen\Kotlin\InvalidStateException;
+use BradynPoulsen\Kotlin\Types\Type;
 use TypeError;
 
 /**
+ * Implementation for ensure* methods of {@see Type}.
  * @internal
  */
 trait TypeAssuranceTrait

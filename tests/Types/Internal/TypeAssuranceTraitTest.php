@@ -1,14 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Types;
+namespace BradynPoulsen\Kotlin\Types\Internal;
 
+use BradynPoulsen\Kotlin\Types\Type;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * @covers \BradynPoulsen\Kotlin\Types\TypeAssuranceTrait
- * @covers \BradynPoulsen\Kotlin\Types\TypeVariance
+ * @covers \BradynPoulsen\Kotlin\Types\Internal\TypeAssuranceTrait
+ * @covers \BradynPoulsen\Kotlin\Types\Internal\TypeVariance
  */
 class TypeAssuranceTraitTest extends TestCase
 {

@@ -15,20 +15,20 @@ class TypeAssuranceTraitTest extends TestCase
     /**
      * @var Type
      */
-    private static $alwaysInvalidValue;
+    private static $alwaysInvalidType;
 
     /**
      * @var Type
      */
-    private static $alwaysValidValue;
+    private static $alwaysValidType;
 
     /**
      * @test
      */
-    public function invariantTypeError(): void
+    public function invariantValueInvalid(): void
     {
         try {
-            self::$alwaysInvalidValue->ensureInvariantValue(1, null);
+            self::$alwaysInvalidType->ensureInvariantValue(1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, null given", $message);
@@ -43,17 +43,17 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public function invariantValueValid(): void
     {
-        self::$alwaysValidValue->ensureInvariantValue(1, null);
+        self::$alwaysValidType->ensureInvariantValue(1, null);
         self::assertNull(null);
     }
 
     /**
      * @test
      */
-    public function covariantTypeError(): void
+    public function covariantValueInvalid(): void
     {
         try {
-            self::$alwaysInvalidValue->ensureCovariantValue(1, null);
+            self::$alwaysInvalidType->ensureCovariantValue(1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of covariant type nothing, null given", $message);
@@ -68,17 +68,17 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public function covariantValueValid(): void
     {
-        self::$alwaysValidValue->ensureCovariantValue(1, null);
+        self::$alwaysValidType->ensureCovariantValue(1, null);
         self::assertNull(null);
     }
 
     /**
      * @test
      */
-    public function contravariantTypeError(): void
+    public function contravariantValueInvalid(): void
     {
         try {
-            self::$alwaysInvalidValue->ensureContravariantValue(1, null);
+            self::$alwaysInvalidType->ensureContravariantValue(1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of contravariant type nothing, null given", $message);
@@ -93,7 +93,82 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public function contravariantValueValid(): void
     {
-        self::$alwaysValidValue->ensureContravariantValue(1, null);
+        self::$alwaysValidType->ensureContravariantValue(1, null);
+        self::assertNull(null);
+    }
+
+    /**
+     * @test
+     */
+    public function invariantTypeInvalid(): void
+    {
+        try {
+            self::$alwaysInvalidType->ensureInvariantType(1, self::$alwaysInvalidType);
+        } catch (TypeError $error) {
+            $message = $error->getMessage();
+            self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, nothing given", $message);
+            return;
+        }
+
+        self::fail("TypeError was not caught!");
+    }
+
+    /**
+     * @test
+     */
+    public function invariantTypeValid(): void
+    {
+        self::$alwaysValidType->ensureInvariantType(1, self::$alwaysValidType);
+        self::assertNull(null);
+    }
+
+    /**
+     * @test
+     */
+    public function covariantTypeInvalid(): void
+    {
+        try {
+            self::$alwaysInvalidType->ensureCovariantType(1, self::$alwaysInvalidType);
+        } catch (TypeError $error) {
+            $message = $error->getMessage();
+            self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of covariant type nothing, nothing given", $message);
+            return;
+        }
+
+        self::fail("TypeError was not caught!");
+    }
+
+    /**
+     * @test
+     */
+    public function covariantTypeValid(): void
+    {
+        self::$alwaysValidType->ensureCovariantType(1, self::$alwaysValidType);
+        self::assertNull(null);
+    }
+
+    /**
+     * @test
+     */
+    public function contravariantTypeInvalid(): void
+    {
+        try {
+            self::$alwaysInvalidType->ensureContravariantType(1, self::$alwaysInvalidType);
+        } catch (TypeError $error) {
+            $message = $error->getMessage();
+            self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of contravariant type nothing, nothing given", $message);
+            return;
+        }
+
+        self::fail("TypeError was not caught!");
+    }
+
+    /**
+     * @test
+     */
+    public function contravariantTypeValid(): void
+    {
+        self::$alwaysValidType->ensureContravariantType(1, self::$alwaysValidType);
         self::assertNull(null);
     }
 
@@ -102,7 +177,7 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public static function createAlwaysInvalidType()
     {
-        self::$alwaysInvalidValue = new class implements Type {
+        self::$alwaysInvalidType = new class implements Type {
             use TypeAssuranceTrait;
             public function getName(): string
             {
@@ -132,6 +207,18 @@ class TypeAssuranceTraitTest extends TestCase
             {
                 return false;
             }
+            public function isCovariantType(Type $type): bool
+            {
+                return false;
+            }
+            public function isContravariantType(Type $type): bool
+            {
+                return false;
+            }
+            public function isInvariantType(Type $type): bool
+            {
+                return false;
+            }
         };
     }
 
@@ -140,7 +227,7 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public static function createAlwaysValidType()
     {
-        self::$alwaysValidValue = new class implements Type {
+        self::$alwaysValidType = new class implements Type {
             use TypeAssuranceTrait;
             public function getName(): string
             {
@@ -167,6 +254,18 @@ class TypeAssuranceTraitTest extends TestCase
                 return true;
             }
             public function isInvariantValue($value): bool
+            {
+                return true;
+            }
+            public function isCovariantType(Type $type): bool
+            {
+                return true;
+            }
+            public function isContravariantType(Type $type): bool
+            {
+                return true;
+            }
+            public function isInvariantType(Type $type): bool
             {
                 return true;
             }

@@ -55,9 +55,9 @@ interface ListOf extends Collection, ArrayAccess
     public function getIterator(): Traversable;
 
     /**
-     * {@see ArrayAccess} equivalent of {@example $list->indexOfFirst($element) !== -1}
+     * {@see ArrayAccess} equivalent of {@example 0 <= $index && $index < $list->getSize()}
      *
-     * @param mixed $index
+     * @param int $index
      * @return bool
      */
     public function offsetExists($index): bool;
@@ -65,7 +65,7 @@ interface ListOf extends Collection, ArrayAccess
     /**
      * {@see ArrayAccess} equivalent of {@see ListOf::get()}
      *
-     * @param mixed $index
+     * @param int $index
      * @return mixed
      *
      * @see ListOf::getType()

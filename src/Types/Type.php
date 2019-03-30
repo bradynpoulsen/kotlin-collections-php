@@ -46,32 +46,86 @@ interface Type
     public function isInvariantValue($value): bool;
 
     /**
+     * @param Type $type
+     * @return bool `true` if the specified $type is covariant of this type.
+     */
+    public function isCovariantType(Type $type): bool;
+
+    /**
+     * @param Type $type
+     * @return bool `true` if the specified $type is contravariant of this type.
+     */
+    public function isContravariantType(Type $type): bool;
+
+    /**
+     * @param Type $type
+     * @return bool `true` if the specified $type is invariant of this type.
+     */
+    public function isInvariantType(Type $type): bool;
+
+    /**
      * Argument validation helper to ensure that the specified $value is covariant of this type.
      * @param int $argument
      * @param mixed|null $value
+     * @param string $typeWrapper
      *
      * @throws TypeError if the specified $value is not covariant.
      * @see TypeAssuranceTrait::ensureCovariantValue()
      */
-    public function ensureCovariantValue(int $argument, $value): void;
+    public function ensureCovariantValue(int $argument, $value, string $typeWrapper = ''): void;
 
     /**
      * Argument validation helper to ensure that the specified $value is contravariant of this type.
      * @param int $argument
      * @param mixed|null $value
+     * @param string $typeWrapper
      *
      * @throws TypeError if the specified $value is not contravariant.
      * @see TypeAssuranceTrait::ensureContravariantValue()
      */
-    public function ensureContravariantValue(int $argument, $value): void;
+    public function ensureContravariantValue(int $argument, $value, string $typeWrapper = ''): void;
 
     /**
      * Argument validation helper to ensure that the specified $value is invariant of this type.
      * @param int $argument
      * @param mixed|null $value
+     * @param string $typeWrapper
      *
      * @throws TypeError if the specified $value is not invariant.
      * @see TypeAssuranceTrait::ensureInvariantValue()
      */
-    public function ensureInvariantValue(int $argument, $value): void;
+    public function ensureInvariantValue(int $argument, $value, string $typeWrapper = ''): void;
+
+    /**
+     * Argument validation helper to ensure that the specified $type is covariant of this type.
+     * @param int $argument
+     * @param Type $type
+     * @param string $typeWrapper
+     *
+     * @throws TypeError if the specified $value is not covariant.
+     * @see TypeAssuranceTrait::ensureCovariantType()
+     */
+    public function ensureCovariantType(int $argument, Type $type, string $typeWrapper = ''): void;
+
+    /**
+     * Argument validation helper to ensure that the specified $type is contravariant of this type.
+     * @param int $argument
+     * @param Type $type
+     * @param string $typeWrapper
+     *
+     * @throws TypeError if the specified $value is not contravariant.
+     * @see TypeAssuranceTrait::ensureContravariantType()
+     */
+    public function ensureContravariantType(int $argument, Type $type, string $typeWrapper = ''): void;
+
+    /**
+     * Argument validation helper to ensure that the specified $type is invariant of this type.
+     * @param int $argument
+     * @param Type $type
+     * @param string $typeWrapper
+     *
+     * @throws TypeError if the specified $value is not invariant.
+     * @see TypeAssuranceTrait::ensureInvariantType()
+     */
+    public function ensureInvariantType(int $argument, Type $type, string $typeWrapper = ''): void;
 }

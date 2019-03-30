@@ -38,4 +38,13 @@ interface Collection extends IterableOf
      * @see Collection::getType()
      */
     public function containsAll(Collection $elements): bool;
+
+    /**
+     * Returns the elements in this collection as an array.
+     *
+     * @return mixed[]
+     *
+     * @see Collection::getType()
+     */
+    public function toArray(): array;
 }

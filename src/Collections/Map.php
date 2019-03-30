@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
-use BadMethodCallException;
 use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\UnsupportedOperationException;
+use Traversable;
 
 /**
  * A collection that holds pairs of objects (keys and values) and supports efficiently retrieving
@@ -99,7 +99,14 @@ interface Map extends IterableOf, ArrayAccess
     public function getEntries(): Set;
 
     /**
-     * {@see ArrayAccess} alias of {@see Map::containsKey()}
+     * Returns an iterator over the key/value pairs in this map.
+     *
+     * @return Traversable|MapEntry[]
+     */
+    public function getIterator(): Traversable;
+
+    /**
+     * {@see ArrayAccess} equivalent of {@see Map::containsKey()}
      *
      * @param mixed $key
      * @return bool

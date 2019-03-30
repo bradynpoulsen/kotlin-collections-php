@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Types;
+namespace BradynPoulsen\Kotlin\Types\Internal;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \BradynPoulsen\Kotlin\Types\TypeVariance
+ * @covers \BradynPoulsen\Kotlin\Types\Internal\TypeVariance
  */
 class TypeVarianceTest extends TestCase
 {

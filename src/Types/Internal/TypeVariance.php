@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Types;
+namespace BradynPoulsen\Kotlin\Types\Internal;
 
 use BadMethodCallException;
 use InvalidArgumentException;

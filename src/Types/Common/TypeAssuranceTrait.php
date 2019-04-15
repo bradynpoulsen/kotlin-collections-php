@@ -22,7 +22,7 @@ trait TypeAssuranceTrait
     public function ensureValue(int $argument, $value, string $typeWrapper = ''): void
     {
         assert($this instanceof Type);
-        if (!$this->isCovariantValue($value)) {
+        if (!$this->containsValue($value)) {
             throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $this->getName(),
@@ -43,7 +43,7 @@ trait TypeAssuranceTrait
     public function ensureType(int $argument, Type $other, string $typeWrapper = ''): void
     {
         assert($this instanceof Type);
-        if (!$this->isCovariantType($other)) {
+        if (!$this->containsType($other)) {
             throw $this->TypeAssuranceTrait_createTypeError(
                 $argument,
                 (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $this->getName(),

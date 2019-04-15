@@ -13,8 +13,6 @@ use BradynPoulsen\Kotlin\Types\Type;
  */
 final class InstanceType extends AbstractType implements Type
 {
-    use TypeAssuranceTrait;
-
     public function __construct(string $className, bool $nullable)
     {
         if (!class_exists($className) && !interface_exists($className)) {

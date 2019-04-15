@@ -12,8 +12,6 @@ use BradynPoulsen\Kotlin\Types\Type;
  */
 final class MixedType extends AbstractType implements Type
 {
-    use TypeAssuranceTrait;
-
     public function __construct()
     {
         parent::__construct('mixed', false, true, true, true);

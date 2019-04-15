@@ -12,8 +12,6 @@ use BradynPoulsen\Kotlin\Types\Type;
  */
 final class ScalarType extends AbstractType implements Type
 {
-    use TypeAssuranceTrait;
-
     public const STRING = 'string';
     public const INTEGER = 'integer';
     public const FLOAT = 'double';

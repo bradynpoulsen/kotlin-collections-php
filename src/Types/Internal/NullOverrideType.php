@@ -12,8 +12,6 @@ use BradynPoulsen\Kotlin\Types\Type;
  */
 final class NullOverrideType implements Type
 {
-    use TypeAssuranceTrait;
-
     /**
      * @var Type
      */

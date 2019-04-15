@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Types\Common;
 
-use BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait;
 use BradynPoulsen\Kotlin\Types\Type;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * @covers \BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait
+ * @covers \BradynPoulsen\Kotlin\Types\Common\TypeAssurance
  */
-class TypeAssuranceTraitTest extends TestCase
+class TypeAssuranceTest extends TestCase
 {
     /**
      * @var Type
@@ -29,7 +28,7 @@ class TypeAssuranceTraitTest extends TestCase
     public function valueInvalid(): void
     {
         try {
-            self::$alwaysInvalidType->ensureValue(1, null);
+            TypeAssurance::ensureContainedValue(self::$alwaysInvalidType, 1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, null given", $message);
@@ -44,7 +43,7 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public function valueValid(): void
     {
-        self::$alwaysValidType->ensureValue(1, null);
+        TypeAssurance::ensureContainedValue(self::$alwaysValidType, 1, null);
         self::assertNull(null);
     }
 
@@ -54,7 +53,7 @@ class TypeAssuranceTraitTest extends TestCase
     public function typeInvalid(): void
     {
         try {
-            self::$alwaysInvalidType->ensureType(1, self::$alwaysInvalidType);
+            TypeAssurance::ensureContainedType(self::$alwaysInvalidType, 1, self::$alwaysInvalidType);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, nothing given", $message);
@@ -69,7 +68,7 @@ class TypeAssuranceTraitTest extends TestCase
      */
     public function typeValid(): void
     {
-        self::$alwaysValidType->ensureType(1, self::$alwaysValidType);
+        TypeAssurance::ensureContainedType(self::$alwaysValidType, 1, self::$alwaysValidType);
         self::assertNull(null);
     }
 
@@ -79,7 +78,6 @@ class TypeAssuranceTraitTest extends TestCase
     public static function createAlwaysInvalidType()
     {
         self::$alwaysInvalidType = new class implements Type {
-            use TypeAssuranceTrait;
             public function getName(): string
             {
                 return 'nothing';
@@ -117,7 +115,6 @@ class TypeAssuranceTraitTest extends TestCase
     public static function createAlwaysValidType()
     {
         self::$alwaysValidType = new class implements Type {
-            use TypeAssuranceTrait;
             public function getName(): string
             {
                 return 'anything';

@@ -13,8 +13,6 @@ use BradynPoulsen\Kotlin\Types\Type;
  */
 final class NothingType extends AbstractType implements Type
 {
-    use TypeAssuranceTrait;
-
     public function __construct(bool $acceptsNull)
     {
         parent::__construct('nothing', false, false, false, $acceptsNull);

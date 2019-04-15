@@ -13,8 +13,6 @@ use Closure;
  */
 final class StandardType extends AbstractType implements Type
 {
-    use TypeAssuranceTrait;
-
     public const ARRAY = 'array';
     public const RESOURCE = 'resource';
     public const OBJECT = 'object';

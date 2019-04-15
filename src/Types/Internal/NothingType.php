@@ -6,6 +6,11 @@ namespace BradynPoulsen\Kotlin\Types\Internal;
 use BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait;
 use BradynPoulsen\Kotlin\Types\Type;
 
+/**
+ * {@see Type} representation of a value that never exists.
+ * @see https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing.html
+ * @internal
+ */
 final class NothingType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;

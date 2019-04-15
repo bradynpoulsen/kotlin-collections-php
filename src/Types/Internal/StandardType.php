@@ -8,7 +8,7 @@ use BradynPoulsen\Kotlin\Types\Type;
 use Closure;
 
 /**
- * Non-scalar types that are part of the PHP runtime.
+ * {@see Type} representation of non-scalar types that are part of the PHP runtime.
  * @internal
  */
 final class StandardType extends AbstractType implements Type

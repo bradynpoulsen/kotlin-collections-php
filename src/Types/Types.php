@@ -114,9 +114,14 @@ final class Types
         return new MixedType();
     }
 
+    public static function nothing(): Type
+    {
+        return new NothingType(false);
+    }
+
     public static function nothingOrNull(): Type
     {
-        return new NothingType();
+        return new NothingType(true);
     }
 
     public static function fromValue($value): Type

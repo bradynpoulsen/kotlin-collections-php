@@ -10,18 +10,18 @@ class NothingType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 
-    public function __construct()
+    public function __construct(bool $acceptsNull)
     {
-        parent::__construct('nothing', false, false, false, true);
+        parent::__construct('nothing', false, false, false, $acceptsNull);
     }
 
     public function containsValue($value): bool
     {
-        return is_null($value);
+        return is_null($value) && $this->acceptsNull();
     }
 
     public function containsType(Type $type): bool
     {
-        return $type instanceof NothingType;
+        return $type instanceof NothingType && ($this->acceptsNull() || !$type->acceptsNull());
     }
 }

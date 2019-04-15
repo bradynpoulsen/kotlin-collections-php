@@ -33,7 +33,7 @@ final class StandardType extends AbstractType implements Type
 
     public function containsValue($value): bool
     {
-        return is_null($value) && $this->acceptsNull() || $this->valueCheck->call(null, $value);
+        return is_null($value) && $this->acceptsNull() || ($this->valueCheck)($value);
     }
 
     public function containsType(Type $type): bool

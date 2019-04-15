@@ -11,7 +11,7 @@ use BradynPoulsen\Kotlin\Types\Type;
  * {@see Type} representation of an object of a specific class or interface.
  * @internal
  */
-class InstanceType extends AbstractType implements Type
+final class InstanceType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 

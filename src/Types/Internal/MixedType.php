@@ -10,7 +10,7 @@ use BradynPoulsen\Kotlin\Types\Type;
  * {@see Type} representation of an unchecked PHP type.
  * @internal
  */
-class MixedType extends AbstractType implements Type
+final class MixedType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 

@@ -10,7 +10,7 @@ use BradynPoulsen\Kotlin\Types\Type;
  * {@see Type} representation of a PHP scalar type.
  * @internal
  */
-class ScalarType extends AbstractType implements Type
+final class ScalarType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 

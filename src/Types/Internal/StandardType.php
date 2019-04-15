@@ -11,7 +11,7 @@ use Closure;
  * Non-scalar types that are part of the PHP runtime.
  * @internal
  */
-class StandardType extends AbstractType implements Type
+final class StandardType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 

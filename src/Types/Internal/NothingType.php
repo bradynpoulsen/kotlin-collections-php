@@ -6,7 +6,7 @@ namespace BradynPoulsen\Kotlin\Types\Internal;
 use BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait;
 use BradynPoulsen\Kotlin\Types\Type;
 
-class NothingType extends AbstractType implements Type
+final class NothingType extends AbstractType implements Type
 {
     use TypeAssuranceTrait;
 

@@ -5,6 +5,7 @@ namespace BradynPoulsen\Kotlin\Collections\Internal;
 
 use function BradynPoulsen\Kotlin\Collections\listOf;
 use BradynPoulsen\Kotlin\NoSuchElementException;
+use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\Types\Types;
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
@@ -240,6 +241,81 @@ class ArrayListTest extends TestCase
         $target->add("bar");
         $target->addAllAt(2, $source);
         self::assertSame(["foo", "bar", "baz"], $target->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function clear(): void
+    {
+        $source = new MutableArrayList(Types::string());
+        $source->add("foo");
+        $source->add("bar");
+        $source->add("bar");
+        $source->add("bar");
+        $source->add("baz");
+
+        self::assertCount(5, $source);
+        $source->clear();
+        self::assertEmpty($source);
+    }
+
+    /**
+     * @test
+     */
+    public function remove_allIncludingDuplicates(): void
+    {
+        $source = new MutableArrayList(Types::string());
+        $source->add("foo");
+        $source->add("bar");
+        $source->add("bar");
+        $source->add("bar");
+        $source->add("baz");
+
+        self::assertTrue($source->remove("bar"));
+        self::assertCount(2, $source);
+    }
+
+    /**
+     * @test
+     */
+    public function removeAll_withNoop(): void
+    {
+        $emptyList = new ArrayList(Types::nothing());
+
+        $source = new MutableArrayList(Types::string());
+        $source->add("bar");
+
+        $target = new MutableArrayList(Types::stringOrNull());
+        $target->add(null);
+        $target->add("foo");
+        $target->add("bar");
+
+        self::assertFalse($target->removeAll($emptyList));
+        self::assertTrue($target->removeAll($source));
+        self::assertFalse($target->removeAll($source));
+    }
+
+    /**
+     * @test
+     */
+    public function retainAll_withNoop(): void
+    {
+        $emptyList = new ArrayList(Types::nothing());
+
+        $source = new MutableArrayList(Types::string());
+        $source->add("bar");
+
+        $target = new MutableArrayList(Types::stringOrNull());
+        $target->add(null);
+        $target->add("foo");
+        $target->add("bar");
+
+        self::assertTrue($target->retainAll($source));
+        self::assertCount(1, $target);
+        self::assertFalse($target->retainAll($source));
+        self::assertTrue($target->retainAll($emptyList));
+        self::assertEmpty($target);
     }
 
     /**

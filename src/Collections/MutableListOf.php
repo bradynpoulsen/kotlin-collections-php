@@ -5,6 +5,7 @@ namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
 use BradynPoulsen\Kotlin\NoSuchElementException;
+use OutOfBoundsException;
 
 /**
  * A generic ordered collection of elements that supports adding and removing elements.
@@ -42,6 +43,7 @@ interface MutableListOf extends ListOf, MutableCollection
      * @param int $index
      * @param mixed $element
      * @return bool `true` because the list is always modified as the result of this operation.
+     * @throws OutOfBoundsException if the specified $index is not contained or the end of the list.
      *
      * @see MutableListOf::getType()
      */
@@ -53,6 +55,7 @@ interface MutableListOf extends ListOf, MutableCollection
      * @param int $index
      * @param Collection|mixed[] $elements
      * @return bool `true` because the list is always modified as the result of this operation.
+     * @throws OutOfBoundsException if the specified $index is not contained or the end of the list.
      *
      * @see MutableListOf::getType()
      */

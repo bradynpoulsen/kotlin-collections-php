@@ -17,7 +17,7 @@ interface MutableMap extends Map
      *
      * @param mixed $key
      * @param mixed $value
-     * @return mixed|null the previous value associated with the key, or `null` if the key was not
+     * @return mixed the previous value associated with the key, or `null` if the key was not
      *     present in the map.
      *
      * @see MutableMap::getKeyType()
@@ -29,7 +29,7 @@ interface MutableMap extends Map
      * Removes the specified $key and its corresponding $value from this map.
      *
      * @param mixed $key
-     * @return mixed|null the previous value associated with the key, or `null` if the key was not
+     * @return mixed the previous value associated with the key, or `null` if the key was not
      *     present in the map.
      *
      * @see MutableMap::getKeyType()
@@ -81,13 +81,6 @@ interface MutableMap extends Map
      * @see MutableMap::getValueType()
      */
     public function getValues(): Collection;
-
-    /**
-     * Returns a {@see MutableSet} of all key/value pairs in this map.
-     *
-     * @return MutableSet|MutableMapEntry[]
-     */
-    public function getEntries(): Set;
 
     /**
      * Returns an iterator over the key/value pairs in this map.

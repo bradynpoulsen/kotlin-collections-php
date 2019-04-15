@@ -7,8 +7,8 @@ use BradynPoulsen\Kotlin\Types\Type;
 
 /**
  * Represents a key/value pair held by a {@see Map}.
- * The type of map keys is available through {@see MapEntry::getKeyType()} and is invariant.
- * The type of map values is available through {@see MapEntry::getValueType()} and is covariant.
+ * The type of map keys is available through {@see MapEntry::getKeyType()}.
+ * The type of map values is available through {@see MapEntry::getValueType()}.
  */
 interface MapEntry
 {

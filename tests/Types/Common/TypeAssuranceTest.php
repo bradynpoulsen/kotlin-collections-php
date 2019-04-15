@@ -43,8 +43,8 @@ class TypeAssuranceTest extends TestCase
      */
     public function valueValid(): void
     {
+        $this->expectNotToPerformAssertions();
         TypeAssurance::ensureContainedValue(self::$alwaysValidType, 1, null);
-        self::assertNull(null);
     }
 
     /**
@@ -68,8 +68,8 @@ class TypeAssuranceTest extends TestCase
      */
     public function typeValid(): void
     {
+        $this->expectNotToPerformAssertions();
         TypeAssurance::ensureContainedType(self::$alwaysValidType, 1, self::$alwaysValidType);
-        self::assertNull(null);
     }
 
     /**

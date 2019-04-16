@@ -31,7 +31,7 @@ class TypeAssuranceTest extends TestCase
             TypeAssurance::ensureContainedValue(self::$alwaysInvalidType, 1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
-            self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, null given", $message);
+            self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, nothing or null given", $message);
             return;
         }
 

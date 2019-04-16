@@ -4,18 +4,19 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
+use BadMethodCallException;
 use BradynPoulsen\Kotlin\Types\Type;
-use BradynPoulsen\Kotlin\UnsupportedOperationException;
+use Countable;
 use Traversable;
 
 /**
  * A collection that holds pairs of objects (keys and values) and supports efficiently retrieving
  * the value corresponding to each key. Map keys are unique; the map holds only one value for each
  * key.
- * The type of map keys is available through {@see Map::getKeyType()} and is invariant.
- * The type of map values is available through {@see Map::getValueType()} and is covariant.
+ * The type of map keys is available through {@see Map::getKeyType()}.
+ * The type of map values is available through {@see Map::getValueType()}.
  */
-interface Map extends IterableOf, ArrayAccess
+interface Map extends IterableOf, ArrayAccess, Countable
 {
     /**
      * Get the type name allowed for keys of this map.
@@ -34,7 +35,7 @@ interface Map extends IterableOf, ArrayAccess
     /**
      * Returns the number of key/value pairs in the map.
      */
-    public function getSize(): int;
+    public function count(): int;
 
     /**
      * Returns `true` if the map is empty (contains no elements), `false` otherwise.
@@ -65,7 +66,7 @@ interface Map extends IterableOf, ArrayAccess
      * Get a value by its $key.
      *
      * @param mixed $key
-     * @return mixed|null the value corresponding the given $key, or `null` if no such key is present in the map.
+     * @return mixed the value corresponding the given $key, or `null` if no such key is present in the map.
      *
      * @see Map::getKeyType()
      * @see Map::getValueType()
@@ -92,18 +93,25 @@ interface Map extends IterableOf, ArrayAccess
     public function getValues(): Collection;
 
     /**
-     * Returns a read-only {@see Set} of all key/value pairs in this map.
-     *
-     * @return Set|MapEntry[]
-     */
-    public function getEntries(): Set;
-
-    /**
      * Returns an iterator over the key/value pairs in this map.
      *
      * @return Traversable|MapEntry[]
      */
     public function getIterator(): Traversable;
+
+    /**
+     * Collect the key/value pairs of this map into a read-only {@see Map}.
+     *
+     * @return Map
+     */
+    public function toMap(): Map;
+
+    /**
+     * Collect the key/value pairs of this map into a {@see MutableMap}.
+     *
+     * @return MutableMap
+     */
+    public function toMutableMap(): MutableMap;
 
     /**
      * {@see ArrayAccess} equivalent of {@see Map::containsKey()}
@@ -119,21 +127,22 @@ interface Map extends IterableOf, ArrayAccess
      * {@see ArrayAccess} equivalent of {@see Map::get()}
      *
      * @param mixed $key
-     * @return mixed|null
+     * @return mixed
      *
      * @see Map::getKeyType()
      */
     public function offsetGet($key);
 
     /**
+     * @param $key
+     * @param $value
      * @deprecated Unsupported mutation operation of this read-only map.
-     * @throws UnsupportedOperationException always
      */
-    public function offsetSet($offset, $value): void;
+    public function offsetSet($key, $value): void;
 
     /**
+     * @param $key
      * @deprecated Unsupported mutation operation of this read-only map.
-     * @throws UnsupportedOperationException always
      */
-    public function offsetUnset($offset): void;
+    public function offsetUnset($key): void;
 }

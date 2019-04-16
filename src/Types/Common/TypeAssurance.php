@@ -5,6 +5,7 @@ namespace BradynPoulsen\Kotlin\Types\Common;
 
 use BradynPoulsen\Kotlin\InvalidStateException;
 use BradynPoulsen\Kotlin\Types\Type;
+use BradynPoulsen\Kotlin\Types\Types;
 use TypeError;
 
 /**
@@ -33,10 +34,9 @@ final class TypeAssurance
         if (!$type->containsValue($value)) {
             throw self::createTypeError(
                 $argument,
-                (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
-                $type->acceptsNull(),
-                (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '')
-                . (is_object($value) ? get_class($value) : strtolower(gettype($value)))
+                $type,
+                Types::fromValue($value),
+                $typeWrapper
             );
         }
     }
@@ -55,20 +55,18 @@ final class TypeAssurance
         if (!$type->containsType($other)) {
             throw self::createTypeError(
                 $argument,
-                (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $type->getName(),
-                $type->acceptsNull(),
-                (strlen($typeWrapper) > 0 ? $typeWrapper . ' of ' : '') . $other->getName(),
-                $other->acceptsNull()
+                $type,
+                $other,
+                $typeWrapper
             );
         }
     }
 
     private static function createTypeError(
         int $argument,
-        string $expectedType,
-        bool $expectedNullable,
-        string $providedType,
-        bool $providedNullable = false
+        Type $expected,
+        Type $provided,
+        string $typeWrapper
     ): TypeError {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         $sourceTrace = $backtrace[2] ?? null;
@@ -84,13 +82,29 @@ final class TypeAssurance
             $methodName = $sourceTrace['class'] . '::' . $methodName;
         }
 
+        $expectedTypeName = $expected->getName();
+        if (strlen($typeWrapper) > 0) {
+            $expectedTypeName = $typeWrapper . ' of ' . $expectedTypeName;
+        }
+        if ($expected->acceptsNull()) {
+            $expectedTypeName .= ' or null';
+        }
+
+        $providedTypeName = $provided->getName();
+        if (strlen($typeWrapper) > 0) {
+            $providedTypeName = $typeWrapper . ' of ' . $providedTypeName;
+        }
+        if ($provided->acceptsNull()) {
+            $providedTypeName .= ' or null';
+        }
+
         throw new TypeError(
             sprintf(
                 "Argument %d passed to %s() must be of type %s, %s given, called in %s on line %d",
                 $argument,
                 $methodName,
-                $expectedType . ($expectedNullable ? ' or null' : ''),
-                $providedType . ($providedNullable ? ' or null' : ''),
+                $expectedTypeName,
+                $providedTypeName,
                 $sourceTrace['file'],
                 $sourceTrace['line']
             )

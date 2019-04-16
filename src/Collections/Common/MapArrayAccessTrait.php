@@ -45,9 +45,10 @@ trait MapArrayAccessTrait
         assert($this instanceof Map);
         if ($this instanceof MutableMap) {
             $this->put($key, $value);
-        } else {
-            throw new UnsupportedOperationException();
+            return;
         }
+
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -59,8 +60,9 @@ trait MapArrayAccessTrait
         assert($this instanceof Map);
         if ($this instanceof MutableMap) {
             $this->remove($key);
-        } else {
-            throw new UnsupportedOperationException();
+            return;
         }
+
+        throw new UnsupportedOperationException();
     }
 }

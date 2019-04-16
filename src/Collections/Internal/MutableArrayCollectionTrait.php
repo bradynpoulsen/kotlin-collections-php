@@ -6,7 +6,6 @@ namespace BradynPoulsen\Kotlin\Collections\Internal;
 use BradynPoulsen\Kotlin\Collections\Collection;
 use BradynPoulsen\Kotlin\Collections\IterableOf;
 use BradynPoulsen\Kotlin\Collections\MutableCollection;
-use BradynPoulsen\Kotlin\Collections\MutableSet;
 use BradynPoulsen\Kotlin\Types\Type;
 
 /**

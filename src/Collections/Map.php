@@ -5,7 +5,6 @@ namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
 use BradynPoulsen\Kotlin\Types\Type;
-use BradynPoulsen\Kotlin\UnsupportedOperationException;
 use Countable;
 use Traversable;
 
@@ -134,14 +133,15 @@ interface Map extends IterableOf, ArrayAccess, Countable
     public function offsetGet($key);
 
     /**
+     * @param $key
+     * @param $value
      * @deprecated Unsupported mutation operation of this read-only map.
-     * @throws UnsupportedOperationException always
      */
     public function offsetSet($key, $value): void;
 
     /**
+     * @param $key
      * @deprecated Unsupported mutation operation of this read-only map.
-     * @throws UnsupportedOperationException always
      */
     public function offsetUnset($key): void;
 }

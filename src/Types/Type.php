@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Types;
 
-use BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait;
-use TypeError;
-
 interface Type
 {
     /**

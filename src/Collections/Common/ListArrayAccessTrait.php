@@ -46,9 +46,10 @@ trait ListArrayAccessTrait
         assert($this instanceof ListOf);
         if ($this instanceof MutableListOf) {
             $this->set($index, $value);
-        } else {
-            throw new UnsupportedOperationException();
+            return;
         }
+
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -61,8 +62,9 @@ trait ListArrayAccessTrait
         assert($this instanceof ListOf);
         if ($this instanceof MutableListOf) {
             $this->removeAt($index);
-        } else {
-            throw new UnsupportedOperationException();
+            return;
         }
+
+        throw new UnsupportedOperationException();
     }
 }

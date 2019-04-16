@@ -39,26 +39,9 @@ final class ElementHashCalculator
         } elseif (is_object($element)) {
             return sprintf('obj:%s:%d;', get_class($element), spl_object_id($element));
         } elseif (is_callable($element)) {
-            $identifier = null;
-            if (is_array($element)) {
-                $target = $element[0];
-                $method = $element[1];
-                if (is_object($target)) {
-                    $target = rtrim(self::calculate($target), ';');
-                }
-                $identifier = sprintf('%s::%s', $target, $method);
-            }
-
-            if (!is_null($identifier)) {
-                return sprintf('fun:%s;', $identifier);
-            }
+            return self::calculateCallable($element);
         } elseif (is_array($element)) {
-            $serializedElements = '';
-            foreach ($element as $key => $value) {
-                $serializedElements .= self::calculate($key);
-                $serializedElements .= self::calculate($value);
-            }
-            return sprintf('arr:%d:{%s};', count($element), $serializedElements);
+            return self::calculateArray($element);
         }
         // This exception is only thrown if a new base type is added to PHP core
         // @codeCoverageIgnoreStart
@@ -69,5 +52,40 @@ final class ElementHashCalculator
             )
         );
         // @codeCoverageIgnoreEnd
+    }
+
+    private static function calculateCallable(callable $element): string
+    {
+        $identifier = null;
+        if (is_array($element)) {
+            $target = $element[0];
+            $method = $element[1];
+            if (is_object($target)) {
+                $target = rtrim(self::calculate($target), ';');
+            }
+            $identifier = sprintf('%s::%s', $target, $method);
+        }
+
+        if (!is_null($identifier)) {
+            return sprintf('fun:%s;', $identifier);
+        }
+
+        // This exception is only thrown if a new form of callable is introduce into the PHP language
+        // @codeCoverageIgnoreStart
+        throw new UnsupportedOperationException(sprintf(
+            "Failed to determine unique hash of callable for type %s",
+            is_object($element) ? get_class($element) : gettype($element)
+        ));
+        // @codeCoverageIgnoreEnd
+    }
+
+    private static function calculateArray(array $element): string
+    {
+        $serializedElements = '';
+        foreach ($element as $key => $value) {
+            $serializedElements .= self::calculate($key);
+            $serializedElements .= self::calculate($value);
+        }
+        return sprintf('arr:%d:{%s};', count($element), $serializedElements);
     }
 }

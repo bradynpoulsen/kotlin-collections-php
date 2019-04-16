@@ -6,6 +6,9 @@ namespace BradynPoulsen\Kotlin\Collections\Internal;
 use BradynPoulsen\Kotlin\Collections\Collection;
 use BradynPoulsen\Kotlin\Types\Common\TypeAssurance;
 
+/**
+ * @internal
+ */
 trait MutableSetTrait
 {
     use MutableArrayCollectionTrait;
@@ -41,5 +44,4 @@ trait MutableSetTrait
         }
         return $this->count() !== $originalSize;
     }
-
 }

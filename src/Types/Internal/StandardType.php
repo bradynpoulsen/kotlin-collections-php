@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Types\Internal;
 
-use BradynPoulsen\Kotlin\Types\Common\TypeAssuranceTrait;
 use BradynPoulsen\Kotlin\Types\Type;
 use Closure;
 

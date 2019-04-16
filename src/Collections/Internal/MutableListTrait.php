@@ -7,6 +7,9 @@ namespace BradynPoulsen\Kotlin\Collections\Internal;
 use BradynPoulsen\Kotlin\Collections\Collection;
 use BradynPoulsen\Kotlin\Types\Common\TypeAssurance;
 
+/**
+ * @internal
+ */
 trait MutableListTrait
 {
     use MutableArrayCollectionTrait;

@@ -5,7 +5,6 @@ namespace BradynPoulsen\Kotlin\Collections;
 
 use ArrayAccess;
 use BradynPoulsen\Kotlin\NoSuchElementException;
-use BradynPoulsen\Kotlin\UnsupportedOperationException;
 use Traversable;
 
 /**
@@ -81,14 +80,15 @@ interface ListOf extends Collection, ArrayAccess
     public function offsetGet($index);
 
     /**
+     * @param $offset
+     * @param $value
      * @deprecated Unsupported mutation operation of this read-only list.
-     * @throws UnsupportedOperationException always
      */
     public function offsetSet($offset, $value): void;
 
     /**
+     * @param $offset
      * @deprecated Unsupported mutation operation of this read-only list.
-     * @throws UnsupportedOperationException always
      */
     public function offsetUnset($offset): void;
 }

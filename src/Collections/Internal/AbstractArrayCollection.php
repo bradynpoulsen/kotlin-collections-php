@@ -8,7 +8,6 @@ use BradynPoulsen\Kotlin\Collections\Collection;
 use BradynPoulsen\Kotlin\Collections\Common\CollectionContainsTrait;
 use BradynPoulsen\Kotlin\Collections\IterableOf;
 use BradynPoulsen\Kotlin\Collections\ListOf;
-use BradynPoulsen\Kotlin\Collections\MutableCollection;
 use BradynPoulsen\Kotlin\Collections\MutableListOf;
 use BradynPoulsen\Kotlin\Collections\MutableSet;
 use function BradynPoulsen\Kotlin\Collections\mutableSetOf;

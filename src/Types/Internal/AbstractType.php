@@ -31,8 +31,13 @@ abstract class AbstractType implements Type
      */
     private $acceptsNull;
 
-    protected function __construct(string $name, bool $isScalar, bool $isCompound, bool $acceptsDynamicArray, bool $acceptsNull)
-    {
+    protected function __construct(
+        string $name,
+        bool $isScalar,
+        bool $isCompound,
+        bool $acceptsDynamicArray,
+        bool $acceptsNull
+    ) {
         $this->name = $name;
         $this->isScalar = $isScalar;
         $this->isCompound = $isCompound;

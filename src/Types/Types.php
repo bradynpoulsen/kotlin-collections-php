@@ -10,6 +10,7 @@ use BradynPoulsen\Kotlin\Types\Internal\NullOverrideType;
 use BradynPoulsen\Kotlin\Types\Internal\ScalarType;
 use BradynPoulsen\Kotlin\Types\Internal\StandardType;
 use BradynPoulsen\Kotlin\UnsupportedOperationException;
+use Closure;
 
 final class Types
 {
@@ -242,16 +243,9 @@ final class Types
     {
         if (is_null($value)) {
             return self::nothingOrNull();
-        } elseif (is_string($value)) {
-            return self::string();
-        } elseif (is_int($value)) {
-            return self::integer();
-        } elseif (is_float($value)) {
-            return self::float();
-        } elseif (is_bool($value)) {
-            return self::boolean();
-        } elseif (is_resource($value)) {
-            return self::resource();
+        } elseif (is_scalar($value) || is_resource($value)) {
+            $typeFactory = Closure::fromCallable([self::class, gettype($value)]);
+            return $typeFactory();
         } elseif (is_callable($value)) {
             return self::callableOf();
         } elseif (is_array($value)) {

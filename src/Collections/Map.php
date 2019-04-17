@@ -19,6 +19,12 @@ use Traversable;
 interface Map extends IterableOf, ArrayAccess, Countable
 {
     /**
+     * A type representing {@see MapEntry}.
+     * When iterating over a {@see Map} as a {@see Traversable}, {@see MapEntry} key/value pairs will be provided.
+     */
+    public function getType(): Type;
+
+    /**
      * Get the type name allowed for keys of this map.
      * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
      * instance of this type.

@@ -15,6 +15,8 @@ use BradynPoulsen\Kotlin\Collections\MutableMap;
 use BradynPoulsen\Kotlin\Collections\MutableMapEntry;
 use BradynPoulsen\Kotlin\Collections\MutableSet;
 use BradynPoulsen\Kotlin\Collections\Set;
+use BradynPoulsen\Kotlin\Sequences\Internal\IterableOfSequence;
+use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\Types\Types;
 use Traversable;
@@ -179,6 +181,25 @@ class HashedMap implements Map
     {
         return new ArrayIterator(array_values($this->container));
     }
+
+    /**
+     * @return Type
+     * @see IterableOf::getType()
+     */
+    public function getType(): Type
+    {
+        return Types::instance(MapEntry::class);
+    }
+
+    /**
+     * @return Sequence
+     * @see IterableOf::asSequence()
+     */
+    public function asSequence(): Sequence
+    {
+        return new IterableOfSequence($this);
+    }
+
 
     /**
      * @return ListOf

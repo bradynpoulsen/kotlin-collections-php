@@ -16,6 +16,16 @@ use Traversable;
  * only once. Operations, like map, filter, etc, generally preserved this constraint, and must be
  * documented if it doesn't.
  *
+ * Operations must be classified into groups of state requirements and effect.
+ *
+ * State Requirements:
+ *   - @state stateless - operations which require no state and process each element independently.
+ *   - @state stateful - operations which require an amount of state, usually proportional to number of elements
+ *
+ * Effect:
+ *   - @effect intermediate - operations that return another sequence, which process each element lazily
+ *   - @effect terminal - operations that consume the sequence to return a non-sequence result
+ *
  * The type of elements is available through {@see Sequence::getType()} and is covariant.
  */
 interface Sequence extends IteratorAggregate
@@ -34,4 +44,14 @@ interface Sequence extends IteratorAggregate
      *     {@see Sequence::getIterator()} is invoked a second time.
      */
     public function getIterator(): Traversable;
+
+    /**
+     * Returns a wrapper sequence that provides values of this sequence, but ensures it can be iterated only one time.
+     *
+     * @effect intermediate
+     * @state stateless
+     *
+     * @return Sequence
+     */
+    public function constrainOnce(): Sequence;
 }

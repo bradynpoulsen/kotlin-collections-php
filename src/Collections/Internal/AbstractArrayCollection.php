@@ -13,6 +13,8 @@ use BradynPoulsen\Kotlin\Collections\MutableSet;
 use function BradynPoulsen\Kotlin\Collections\mutableSetOf;
 use BradynPoulsen\Kotlin\Collections\Set;
 use function BradynPoulsen\Kotlin\Collections\setOf;
+use BradynPoulsen\Kotlin\Sequences\Internal\IterableOfSequence;
+use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Internal\StringSerializer;
 use BradynPoulsen\Kotlin\Types\Type;
 use Traversable;
@@ -85,6 +87,15 @@ abstract class AbstractArrayCollection implements Collection
             implode(', ', array_map([StringSerializer::class, 'prepareValue'], $this->container))
         );
     }
+
+    /**
+     * @see IterableOf::asSequence()
+     */
+    public function asSequence(): Sequence
+    {
+        return new IterableOfSequence($this);
+    }
+
 
     /**
      * Collect all of the elements of this collection into an array.

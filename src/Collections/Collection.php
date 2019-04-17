@@ -13,13 +13,6 @@ use Countable;
 interface Collection extends Countable, IterableOf
 {
     /**
-     * Get the type name allowed for elements of this collection.
-     * A {@see TypeError} will be thrown whenever a value is provided that does not qualify as an
-     * instance of this type.
-     */
-    public function getType(): Type;
-
-    /**
      * Returns the size of the collection.
      */
     public function count(): int;

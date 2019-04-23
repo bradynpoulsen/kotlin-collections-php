@@ -28,7 +28,7 @@ final class ScalarType extends AbstractType implements Type
      */
     public function containsValue($value): bool
     {
-        return is_null($value) === $this->acceptsNull() || gettype($value) === $this->getName();
+        return is_null($value) && $this->acceptsNull() || gettype($value) === $this->getName();
     }
 
     /**
@@ -38,6 +38,9 @@ final class ScalarType extends AbstractType implements Type
      */
     public function containsType(Type $type): bool
     {
+        if ($type instanceof NothingType) {
+            return true;
+        }
         return $type->getName() === $this->getName() && ($this->acceptsNull() || !$type->acceptsNull());
     }
 }

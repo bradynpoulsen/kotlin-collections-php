@@ -15,7 +15,7 @@ use BradynPoulsen\Kotlin\Collections\MutableMap;
 use BradynPoulsen\Kotlin\Collections\MutableMapEntry;
 use BradynPoulsen\Kotlin\Collections\MutableSet;
 use BradynPoulsen\Kotlin\Collections\Set;
-use BradynPoulsen\Kotlin\Sequences\Internal\IterableOfSequence;
+use BradynPoulsen\Kotlin\Sequences\Internal\Base\IterableOfSequence;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\Types\Types;

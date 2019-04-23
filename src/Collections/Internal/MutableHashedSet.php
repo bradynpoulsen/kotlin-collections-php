@@ -24,7 +24,7 @@ class MutableHashedSet extends HashedSet implements MutableSet
      */
     public function add($element): bool
     {
-        TypeAssurance::ensureContainedValue($this->getType(), 1, $element);
+        TypeAssurance::ensureContainedArgumentValue($this->getType(), 1, $element);
 
         $hash = $this->calculateHash($element);
         if ($this->containsHash($hash)) {
@@ -58,7 +58,7 @@ class MutableHashedSet extends HashedSet implements MutableSet
      */
     public function addAll(Collection $elements): bool
     {
-        TypeAssurance::ensureContainedType($this->getType(), 1, $elements->getType(), get_class($elements));
+        TypeAssurance::ensureContainedArgumentType($this->getType(), 1, $elements->getType(), get_class($elements));
 
         $originalSize = $this->count();
         foreach ($elements as $element) {

@@ -23,6 +23,7 @@
         },
         "files": [
             "src/Collections/collections.php",
+            "src/Sequences/builders.php",
             "src/pairs.php"
         ]
     },

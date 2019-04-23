@@ -22,7 +22,7 @@ trait MutableListTrait
     public function add($element): bool
     {
         assert($this instanceof AbstractArrayCollection);
-        TypeAssurance::ensureContainedValue($this->getType(), 1, $element);
+        TypeAssurance::ensureContainedArgumentValue($this->getType(), 1, $element);
         array_push($this->container, $element);
         return true;
     }
@@ -35,7 +35,7 @@ trait MutableListTrait
     public function addAll(Collection $elements): bool
     {
         assert($this instanceof AbstractArrayCollection);
-        TypeAssurance::ensureContainedType($this->getType(), 1, $elements->getType(), get_class($elements));
+        TypeAssurance::ensureContainedArgumentType($this->getType(), 1, $elements->getType(), get_class($elements));
         array_splice($this->container, $this->count(), 0, $elements->toArray());
         return true;
     }

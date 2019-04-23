@@ -28,7 +28,7 @@ class TypeAssuranceTest extends TestCase
     public function valueInvalid(): void
     {
         try {
-            TypeAssurance::ensureContainedValue(self::$alwaysInvalidType, 1, null);
+            TypeAssurance::ensureContainedArgumentValue(self::$alwaysInvalidType, 1, null);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, nothing or null given", $message);
@@ -44,7 +44,7 @@ class TypeAssuranceTest extends TestCase
     public function valueValid(): void
     {
         $this->expectNotToPerformAssertions();
-        TypeAssurance::ensureContainedValue(self::$alwaysValidType, 1, null);
+        TypeAssurance::ensureContainedArgumentValue(self::$alwaysValidType, 1, null);
     }
 
     /**
@@ -53,7 +53,7 @@ class TypeAssuranceTest extends TestCase
     public function typeInvalid(): void
     {
         try {
-            TypeAssurance::ensureContainedType(self::$alwaysInvalidType, 1, self::$alwaysInvalidType);
+            TypeAssurance::ensureContainedArgumentType(self::$alwaysInvalidType, 1, self::$alwaysInvalidType);
         } catch (TypeError $error) {
             $message = $error->getMessage();
             self::assertStringStartsWith("Argument 1 passed to " . __METHOD__ . "() must be of type nothing, nothing given", $message);
@@ -69,7 +69,7 @@ class TypeAssuranceTest extends TestCase
     public function typeValid(): void
     {
         $this->expectNotToPerformAssertions();
-        TypeAssurance::ensureContainedType(self::$alwaysValidType, 1, self::$alwaysValidType);
+        TypeAssurance::ensureContainedArgumentType(self::$alwaysValidType, 1, self::$alwaysValidType);
     }
 
     /**

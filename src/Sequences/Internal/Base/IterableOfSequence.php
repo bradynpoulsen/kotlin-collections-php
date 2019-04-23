@@ -1,21 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Sequences\Internal;
+namespace BradynPoulsen\Kotlin\Sequences\Internal\Base;
 
 use BradynPoulsen\Kotlin\Collections\IterableOf;
-use BradynPoulsen\Kotlin\Sequences\Common\SequenceOperatorsTrait;
-use BradynPoulsen\Kotlin\Sequences\Sequence;
-use BradynPoulsen\Kotlin\Types\Type;
 use Traversable;
 
 /**
  * @internal
  */
-final class IterableOfSequence implements Sequence
+final class IterableOfSequence extends AbstractBaseSequence
 {
-    use SequenceOperatorsTrait;
-
     /**
      * @var IterableOf
      */
@@ -23,12 +18,8 @@ final class IterableOfSequence implements Sequence
 
     public function __construct(IterableOf $iterable)
     {
+        parent::__construct($iterable->getType());
         $this->iterable = $iterable;
-    }
-
-    public function getType(): Type
-    {
-        return $this->iterable->getType();
     }
 
     public function getIterator(): Traversable

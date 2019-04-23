@@ -129,7 +129,7 @@ function mutableMapOf(Type $keyType, Type $valueType, array $pairs = []): Mutabl
     $pairType = Types::instance(Pair::class);
     $map = new MutableHashedMap($keyType, $valueType);
     foreach ($pairs as $index => $pair) {
-        TypeAssurance::ensureContainedValue($pairType, 3, $pair, sprintf('Index %d for array', $index));
+        TypeAssurance::ensureContainedArgumentValue($pairType, 3, $pair, sprintf('Index %d for array', $index));
         $map->put($pair->getFirst(), $pair->getSecond());
     }
     return $map;

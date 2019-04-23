@@ -43,6 +43,8 @@ final class InstanceType extends AbstractType implements Type
     {
         if ($type->acceptsNull() && !$this->acceptsNull()) {
             return false;
+        } elseif ($type instanceof NothingType) {
+            return true;
         }
 
         return $this->getName() === $type->getName() || is_subclass_of($type->getName(), $this->getName());

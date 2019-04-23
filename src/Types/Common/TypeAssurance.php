@@ -29,10 +29,14 @@ final class TypeAssurance
      *
      * @see TypeAssuranceTrait::ensureValue()
      */
-    public static function ensureContainedValue(Type $type, int $argument, $value, string $typeWrapper = ''): void
-    {
+    public static function ensureContainedArgumentValue(
+        Type $type,
+        int $argument,
+        $value,
+        string $typeWrapper = ''
+    ): void {
         if (!$type->containsValue($value)) {
-            throw self::createTypeError(
+            throw self::createArgumentTypeError(
                 $argument,
                 $type,
                 Types::fromValue($value),
@@ -50,10 +54,14 @@ final class TypeAssurance
      *
      * @see TypeAssuranceTrait::ensureType()
      */
-    public static function ensureContainedType(Type $type, int $argument, Type $other, string $typeWrapper = ''): void
-    {
+    public static function ensureContainedArgumentType(
+        Type $type,
+        int $argument,
+        Type $other,
+        string $typeWrapper = ''
+    ): void {
         if (!$type->containsType($other)) {
-            throw self::createTypeError(
+            throw self::createArgumentTypeError(
                 $argument,
                 $type,
                 $other,
@@ -62,7 +70,45 @@ final class TypeAssurance
         }
     }
 
-    private static function createTypeError(
+    /**
+     * Element validation helper to ensure that the specified $value is contained in the specified $expectedType.
+     *
+     * @param Type $expectedType
+     * @param string $containerName
+     * @param int $position
+     * @param mixed $value
+     */
+    public static function ensureContainedElementValue(
+        Type $expectedType,
+        string $containerName,
+        int $position,
+        $value
+    ): void {
+        if (!$expectedType->containsValue($value)) {
+            throw self::createElementTypeError($position, $expectedType, $containerName, Types::fromValue($value));
+        }
+    }
+
+    /**
+     * Element validation helper to ensure that the specified $providedType is contained in the specified $expectedType.
+     *
+     * @param Type $expectedType
+     * @param string $containerName
+     * @param int $position
+     * @param Type $providedType
+     */
+    public static function ensureContainedElementType(
+        Type $expectedType,
+        string $containerName,
+        int $position,
+        Type $providedType
+    ): void {
+        if (!$expectedType->containsType($providedType)) {
+            throw self::createElementTypeError($position, $expectedType, $containerName, $providedType);
+        }
+    }
+
+    private static function createArgumentTypeError(
         int $argument,
         Type $expected,
         Type $provided,
@@ -109,5 +155,26 @@ final class TypeAssurance
                 $sourceTrace['line']
             )
         );
+    }
+
+    private static function createElementTypeError(int $position, Type $expected, string $containerName, Type $provided): TypeError
+    {
+        $expectedTypeName = $expected->getName();
+        if ($expected->acceptsNull()) {
+            $expectedTypeName .= ' or null';
+        }
+
+        $providedTypeName = $provided->getName();
+        if ($provided->acceptsNull()) {
+            $providedTypeName .= ' or null';
+        }
+
+        throw new TypeError(sprintf(
+            'Element from %s at position %d must be of type %s, %s given',
+            $containerName,
+            $position,
+            $expectedTypeName,
+            $providedTypeName
+        ));
     }
 }

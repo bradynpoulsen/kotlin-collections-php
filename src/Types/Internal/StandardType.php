@@ -35,6 +35,9 @@ final class StandardType extends AbstractType implements Type
 
     public function containsType(Type $type): bool
     {
+        if ($type instanceof NothingType) {
+            return true;
+        }
         return $type->getName() === $this->getName() && ($this->acceptsNull() || !$type->acceptsNull());
     }
 }

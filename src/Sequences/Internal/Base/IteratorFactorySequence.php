@@ -1,10 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Sequences\Internal;
+namespace BradynPoulsen\Kotlin\Sequences\Internal\Base;
 
-use BradynPoulsen\Kotlin\Sequences\Common\SequenceOperatorsTrait;
-use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Type;
 use Iterator;
 use Traversable;
@@ -13,15 +11,8 @@ use TypeError;
 /**
  * @internal
  */
-final class IteratorFactorySequence implements Sequence
+final class IteratorFactorySequence extends AbstractBaseSequence
 {
-    use SequenceOperatorsTrait;
-
-    /**
-     * @var Type
-     */
-    private $type;
-
     /**
      * @var callable
      */
@@ -29,20 +20,17 @@ final class IteratorFactorySequence implements Sequence
 
     public function __construct(Type $type, callable $factory)
     {
-        $this->type = $type;
+        parent::__construct($type);
         $this->factory = $factory;
-    }
-
-    public function getType(): Type
-    {
-        return $this->type;
     }
 
     public function getIterator(): Traversable
     {
         $iterator = call_user_func($this->factory);
-        if ($iterator instanceof Iterator) {
-            return new TypeCheckIterator($this->type, $iterator);
+        if ($iterator instanceof TypeCheckIterator) {
+            return $iterator;
+        } elseif ($iterator instanceof Iterator) {
+            return new TypeCheckIterator($this->getType(), $iterator);
         }
 
         throw new TypeError(sprintf(
@@ -56,16 +44,17 @@ final class IteratorFactorySequence implements Sequence
     private function callableToString(callable $factory): string
     {
         if (is_string($factory)) {
-            return $factory;
+            return $factory . '()';
         } elseif (is_array($factory)) {
             list($target, $method) = $factory;
             if (is_object($target)) {
-                return sprintf('%s->%s', $this->objectToString($target), $method);
+                return sprintf('%s->%s()', $this->objectToString($target), $method);
             } elseif (is_string($target)) {
-                return sprintf('%s::%s', $target, $method);
+                return sprintf('%s::%s()', $target, $method);
             }
         }
 
+        /** @noinspection PhpParamsInspection */
         return is_object($factory) ? $this->objectToString($factory) : gettype($factory);
     }
 

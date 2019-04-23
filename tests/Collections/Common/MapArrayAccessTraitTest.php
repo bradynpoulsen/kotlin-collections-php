@@ -13,6 +13,7 @@ use function BradynPoulsen\Kotlin\pair;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Collections\Common\MapArrayAccessTrait
+ * @covers \BradynPoulsen\Kotlin\Types\Types
  */
 class MapArrayAccessTraitTest extends TestCase
 {

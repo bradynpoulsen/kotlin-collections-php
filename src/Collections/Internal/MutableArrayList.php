@@ -25,7 +25,7 @@ class MutableArrayList extends ArrayList implements MutableListOf
      */
     public function addAt(int $index, $element): bool
     {
-        TypeAssurance::ensureContainedValue($this->getType(), 2, $element);
+        TypeAssurance::ensureContainedArgumentValue($this->getType(), 2, $element);
         if ($this->count() === $index) {
             return $this->add($element);
         }
@@ -47,7 +47,7 @@ class MutableArrayList extends ArrayList implements MutableListOf
      */
     public function addAllAt(int $index, Collection $elements): bool
     {
-        TypeAssurance::ensureContainedValue($this->getType(), 2, $elements->getType(), get_class($elements));
+        TypeAssurance::ensureContainedArgumentType($this->getType(), 2, $elements->getType(), get_class($elements));
         if ($this->count() === $index) {
             return $this->addAll($elements);
         }
@@ -69,7 +69,7 @@ class MutableArrayList extends ArrayList implements MutableListOf
      */
     public function set(int $index, $element)
     {
-        TypeAssurance::ensureContainedValue($this->getType(), 2, $element);
+        TypeAssurance::ensureContainedArgumentValue($this->getType(), 2, $element);
         if (!$this->containsIndex($index)) {
             throw new NoSuchElementException();
         }

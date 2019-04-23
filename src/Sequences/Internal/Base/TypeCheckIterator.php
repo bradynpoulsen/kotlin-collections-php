@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace BradynPoulsen\Kotlin\Sequences\Internal;
+namespace BradynPoulsen\Kotlin\Sequences\Internal\Base;
 
+use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;
+use BradynPoulsen\Kotlin\Types\Common\TypeAssurance;
 use BradynPoulsen\Kotlin\Types\Type;
 use Iterator;
-use TypeError;
 
 /**
  * @internal
@@ -33,25 +34,27 @@ final class TypeCheckIterator implements Iterator
         $this->iterator = $iterator;
     }
 
+    public function getType(): Type
+    {
+        return $this->type;
+    }
+
+    public function asIteration(): TypedIteration
+    {
+        return new IteratorIteration($this->type, $this);
+    }
+
     public function current()
     {
         $value = $this->iterator->current();
-        if ($this->type->containsValue($value)) {
-            return $value;
-        }
 
-        $typeName = $this->type->getName();
-        if ($this->type->acceptsNull()) {
-            $typeName .= ' or null';
-        }
-
-        throw new TypeError(sprintf(
-            'Element from %s iterator at position %d must be of type %s, %s given',
-            get_class($this->iterator),
+        TypeAssurance::ensureContainedElementValue(
+            $this->type,
+            get_class($this->iterator) . ' iterator',
             $this->index,
-            $typeName,
-            is_object($value) ? get_class($value) : gettype($value)
-        ));
+            $value
+        );
+        return $value;
     }
 
     public function next(): void

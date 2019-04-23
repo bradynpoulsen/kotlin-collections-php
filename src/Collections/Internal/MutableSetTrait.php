@@ -21,7 +21,7 @@ trait MutableSetTrait
     public function add($element): bool
     {
         assert($this instanceof AbstractArrayCollection);
-        TypeAssurance::ensureContainedValue($this->getType(), 1, $element);
+        TypeAssurance::ensureContainedArgumentValue($this->getType(), 1, $element);
         if ($this->contains($element)) {
             return false;
         }
@@ -37,7 +37,7 @@ trait MutableSetTrait
     public function addAll(Collection $elements): bool
     {
         assert($this instanceof AbstractArrayCollection);
-        TypeAssurance::ensureContainedType($this->getType(), 1, $elements->getType(), get_class($elements));
+        TypeAssurance::ensureContainedArgumentType($this->getType(), 1, $elements->getType(), get_class($elements));
         $originalSize = $this->count();
         foreach ($elements as $element) {
             $this->add($element);

@@ -6,6 +6,7 @@ namespace BradynPoulsen\Kotlin\Collections\Internal;
 use ArrayIterator;
 use BradynPoulsen\Kotlin\Collections\Collection;
 use BradynPoulsen\Kotlin\Collections\Common\CollectionContainsTrait;
+use BradynPoulsen\Kotlin\Collections\Common\CollectionOperatorsTrait;
 use BradynPoulsen\Kotlin\Collections\IterableOf;
 use BradynPoulsen\Kotlin\Collections\ListOf;
 use BradynPoulsen\Kotlin\Collections\MutableListOf;
@@ -13,7 +14,7 @@ use BradynPoulsen\Kotlin\Collections\MutableSet;
 use function BradynPoulsen\Kotlin\Collections\mutableSetOf;
 use BradynPoulsen\Kotlin\Collections\Set;
 use function BradynPoulsen\Kotlin\Collections\setOf;
-use BradynPoulsen\Kotlin\Sequences\Internal\IterableOfSequence;
+use BradynPoulsen\Kotlin\Sequences\Internal\Base\IterableOfSequence;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Internal\StringSerializer;
 use BradynPoulsen\Kotlin\Types\Type;
@@ -26,6 +27,7 @@ use Traversable;
 abstract class AbstractArrayCollection implements Collection
 {
     use CollectionContainsTrait;
+    use CollectionOperatorsTrait;
 
     /**
      * @var mixed[]

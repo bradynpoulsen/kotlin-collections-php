@@ -35,8 +35,8 @@ class MapPair implements MapEntry
 
     public function __construct(Type $keyType, $key, Type $valueType, $value)
     {
-        TypeAssurance::ensureContainedValue($keyType, 2, $key);
-        TypeAssurance::ensureContainedValue($valueType, 4, $value);
+        TypeAssurance::ensureContainedArgumentValue($keyType, 2, $key);
+        TypeAssurance::ensureContainedArgumentValue($valueType, 4, $value);
         $this->keyType = $keyType;
         $this->key = $key;
         $this->valueType = $valueType;
@@ -96,7 +96,7 @@ class MapPair implements MapEntry
      */
     protected function setValue($newValue)
     {
-        TypeAssurance::ensureContainedValue($this->getValueType(), 1, $newValue);
+        TypeAssurance::ensureContainedArgumentValue($this->getValueType(), 1, $newValue);
         $current = $this->value;
         $this->value = $newValue;
         return $current;

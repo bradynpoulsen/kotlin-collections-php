@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Collections;
 
-use BradynPoulsen\Kotlin\Types\Type;
 use Countable;
 
 /**

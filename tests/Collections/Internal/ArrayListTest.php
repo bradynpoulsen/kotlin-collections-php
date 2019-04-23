@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Collections\Internal;
 
-use function BradynPoulsen\Kotlin\Collections\listOf;
 use BradynPoulsen\Kotlin\NoSuchElementException;
-use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\Types\Types;
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
+use function BradynPoulsen\Kotlin\Collections\listOf;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Collections\Internal\AbstractArrayCollection

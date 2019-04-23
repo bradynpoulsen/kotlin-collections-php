@@ -9,7 +9,6 @@ use BradynPoulsen\Kotlin\Collections\MutableSet;
 use BradynPoulsen\Kotlin\Collections\Set;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Sequences\Sequences;
-use BradynPoulsen\Kotlin\Types\Common\TypeAssurance;
 use function BradynPoulsen\Kotlin\Collections\mutableListOf;
 use function BradynPoulsen\Kotlin\Collections\mutableSetOf;
 

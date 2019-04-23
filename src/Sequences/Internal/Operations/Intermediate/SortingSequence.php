@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
 use ArrayIterator;
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractLinkedIterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\Base\IteratorIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\ReverseArrayIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;

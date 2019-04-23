@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
 use BradynPoulsen\Kotlin\InvalidArgumentException;
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractDisposableIteration;
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractLinkedIterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\Base\EmptySequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\DropTakeSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;

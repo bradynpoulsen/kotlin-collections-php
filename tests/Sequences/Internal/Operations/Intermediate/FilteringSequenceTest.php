@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
-use function BradynPoulsen\Kotlin\Sequences\sequenceOf;
 use BradynPoulsen\Kotlin\Types\Types;
 use PHPUnit\Framework\TestCase;
 use function BradynPoulsen\Kotlin\Collections\listOf;
+use function BradynPoulsen\Kotlin\Sequences\sequenceOf;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\FilteringSequence

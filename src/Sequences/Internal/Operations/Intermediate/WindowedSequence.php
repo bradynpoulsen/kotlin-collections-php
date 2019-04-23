@@ -8,7 +8,6 @@ use BradynPoulsen\Kotlin\Collections\ListOf;
 use BradynPoulsen\Kotlin\Collections\MutableListOf;
 use BradynPoulsen\Kotlin\InvalidArgumentException;
 use BradynPoulsen\Kotlin\InvalidStateException;
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractLinkedIterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\Base\IteratorIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\EmptyIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;

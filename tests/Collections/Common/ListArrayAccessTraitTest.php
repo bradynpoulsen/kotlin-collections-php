@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Collections\Common;
 
 use BradynPoulsen\Kotlin\Collections\Internal\StringType;
-use function BradynPoulsen\Kotlin\Collections\listOf;
-use function BradynPoulsen\Kotlin\Collections\mutableListOf;
 use BradynPoulsen\Kotlin\NoSuchElementException;
 use PHPUnit\Framework\TestCase;
 use Throwable;
+use function BradynPoulsen\Kotlin\Collections\listOf;
+use function BradynPoulsen\Kotlin\Collections\mutableListOf;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Collections\Common\ListArrayAccessTrait

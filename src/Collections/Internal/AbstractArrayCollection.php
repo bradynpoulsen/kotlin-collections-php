@@ -11,14 +11,14 @@ use BradynPoulsen\Kotlin\Collections\IterableOf;
 use BradynPoulsen\Kotlin\Collections\ListOf;
 use BradynPoulsen\Kotlin\Collections\MutableListOf;
 use BradynPoulsen\Kotlin\Collections\MutableSet;
-use function BradynPoulsen\Kotlin\Collections\mutableSetOf;
 use BradynPoulsen\Kotlin\Collections\Set;
-use function BradynPoulsen\Kotlin\Collections\setOf;
 use BradynPoulsen\Kotlin\Sequences\Internal\Base\IterableOfSequence;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Internal\StringSerializer;
 use BradynPoulsen\Kotlin\Types\Type;
 use Traversable;
+use function BradynPoulsen\Kotlin\Collections\mutableSetOf;
+use function BradynPoulsen\Kotlin\Collections\setOf;
 
 /**
  * {@see Collection} implementation backed by a PHP array.

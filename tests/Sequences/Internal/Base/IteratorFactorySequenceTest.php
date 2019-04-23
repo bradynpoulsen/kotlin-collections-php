@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Base;
 
-use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;
-use function BradynPoulsen\Kotlin\Sequences\sequence;
 use BradynPoulsen\Kotlin\Types\Types;
 use EmptyIterator;
 use Generator;
 use PHPUnit\Framework\TestCase;
 use TypeError;
+use function BradynPoulsen\Kotlin\Sequences\sequence;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Sequences\Internal\Base\IteratorFactorySequence

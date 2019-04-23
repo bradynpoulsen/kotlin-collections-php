@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractDisposableIteration;
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractLinkedIterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\SequenceIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;
 use BradynPoulsen\Kotlin\Sequences\Sequence;

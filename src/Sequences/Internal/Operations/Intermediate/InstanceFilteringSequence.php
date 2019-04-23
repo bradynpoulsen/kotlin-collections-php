@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
-use BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\AbstractLinkedIterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\Base\EmptySequence;
 use BradynPoulsen\Kotlin\Sequences\Internal\SequenceIteration;
 use BradynPoulsen\Kotlin\Sequences\Internal\TypedIteration;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
 use BradynPoulsen\Kotlin\Types\Type;
 use BradynPoulsen\Kotlin\Types\Types;
-use Traversable;
 
 /**
  * @internal

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Collections\Common;
 
 use BradynPoulsen\Kotlin\Collections\Internal\StringType;
-use function BradynPoulsen\Kotlin\Collections\mutableListOf;
 use PHPUnit\Framework\TestCase;
+use function BradynPoulsen\Kotlin\Collections\mutableListOf;
 
 /**
  * @covers \BradynPoulsen\Kotlin\Collections\Common\CollectionContainsTrait

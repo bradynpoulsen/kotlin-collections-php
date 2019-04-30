@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ruleset xmlns = "http://pmd.sf.net/ruleset/1.0.0">
-    <rule ref="rulesets/cleancode.xml">
-        <exclude name="StaticAccess" />
-    </rule>
     <rule ref="rulesets/cleancode.xml/StaticAccess">
         <properties>
             <property name="exceptions" value="
                 Closure,
                 BradynPoulsen\Kotlin\Types\Types,
                 BradynPoulsen\Kotlin\Collections\Internal\ElementHashCalculator,
-                BradynPoulsen\Kotlin\Types\Common\TypeAssurance
+                BradynPoulsen\Kotlin\Types\Common\TypeAssurance,
+                BradynPoulsen\Kotlin\Sequences\Internal\SequenceIteration,
+                BradynPoulsen\Kotlin\Sequences\Internal\Base\IteratorSequence,
+                BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate\InstanceFilteringSequence,
+                BradynPoulsen\Kotlin\Sequences\Sequences
             " />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml">
         <exclude name="TooManyPublicMethods" />
+        <exclude name="TooManyMethods" />
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="30" />
+        </properties>
     </rule>
     <rule ref="rulesets/controversial.xml" />
     <rule ref="rulesets/design.xml">

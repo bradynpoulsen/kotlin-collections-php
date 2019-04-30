@@ -56,50 +56,60 @@ final class WindowedSequence extends AbstractLinkedIterationSequence
 
     private function createGenerator(DisposableSequenceOperation $operation): Generator
     {
+        return $this->step >= $this->size
+            ? $this->createFlushingBufferGenerator($operation)
+            : $this->createRingBufferGenerator($operation);
+    }
+
+    private function createFlushingBufferGenerator(DisposableSequenceOperation $operation): Generator
+    {
+        assert($this->step >= $this->size);
         $gap = $this->step - $this->size;
-        if ($gap >= 0) {
-            $buffer = new MutableArrayList($operation->getType());
-            $skip = 0;
-            $iteration = $operation->getIteration();
-            while ($iteration->hasNext()) {
-                $element = $iteration->next();
-                if ($skip > 0) {
-                    $skip -= 1;
-                    continue;
-                }
-                $buffer->add($element);
-                if (count($buffer) === $this->size) {
-                    yield $buffer->toList();
-                    $buffer->clear();
-                    $skip = $gap;
-                }
+        $buffer = new MutableArrayList($operation->getType());
+        $skip = 0;
+        $iteration = $operation->getIteration();
+        while ($iteration->hasNext()) {
+            $element = $iteration->next();
+            if ($skip > 0) {
+                $skip -= 1;
+                continue;
             }
-            $operation->dispose();
+            $buffer->add($element);
+            if (count($buffer) === $this->size) {
+                yield $buffer->toList();
+                $buffer->clear();
+                $skip = $gap;
+            }
+        }
+        $operation->dispose();
+        if (!$buffer->isEmpty()) {
+            if ($this->partialWindows || count($buffer) === $this->size) {
+                yield $buffer->toList();
+            }
+        }
+    }
+
+    private function createRingBufferGenerator(DisposableSequenceOperation $operation): Generator
+    {
+        assert($this->step < $this->size);
+        $buffer = new MutableArrayList($operation->getType());
+        $iteration = $operation->getIteration();
+        while ($iteration->hasNext()) {
+            $element = $iteration->next();
+            $buffer->add($element);
+            if (count($buffer) === $this->size) {
+                yield $buffer->toList();
+                $this->removeFirst($buffer, $this->step);
+            }
+        }
+        $operation->dispose();
+        if ($this->partialWindows) {
+            while (count($buffer) > $this->step) {
+                yield $buffer->toList();
+                $this->removeFirst($buffer, $this->step);
+            }
             if (!$buffer->isEmpty()) {
-                if ($this->partialWindows || count($buffer) === $this->size) {
-                    yield $buffer->toList();
-                }
-            }
-        } else {
-            $buffer = new MutableArrayList($operation->getType());
-            $iteration = $operation->getIteration();
-            while ($iteration->hasNext()) {
-                $element = $iteration->next();
-                $buffer->add($element);
-                if (count($buffer) === $this->size) {
-                    yield $buffer->toList();
-                    $this->removeFirst($buffer, $this->step);
-                }
-            }
-            $operation->dispose();
-            if ($this->partialWindows) {
-                while (count($buffer) > $this->step) {
-                    yield $buffer->toList();
-                    $this->removeFirst($buffer, $this->step);
-                }
-                if (!$buffer->isEmpty()) {
-                    yield $buffer->toList();
-                }
+                yield $buffer->toList();
             }
         }
     }

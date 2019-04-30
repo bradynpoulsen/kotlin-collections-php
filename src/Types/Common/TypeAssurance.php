@@ -157,8 +157,12 @@ final class TypeAssurance
         );
     }
 
-    private static function createElementTypeError(int $position, Type $expected, string $containerName, Type $provided): TypeError
-    {
+    private static function createElementTypeError(
+        int $position,
+        Type $expected,
+        string $containerName,
+        Type $provided
+    ): TypeError {
         $expectedTypeName = $expected->getName();
         if ($expected->acceptsNull()) {
             $expectedTypeName .= ' or null';
@@ -169,12 +173,14 @@ final class TypeAssurance
             $providedTypeName .= ' or null';
         }
 
-        throw new TypeError(sprintf(
-            'Element from %s at position %d must be of type %s, %s given',
-            $containerName,
-            $position,
-            $expectedTypeName,
-            $providedTypeName
-        ));
+        throw new TypeError(
+            sprintf(
+                'Element from %s at position %d must be of type %s, %s given',
+                $containerName,
+                $position,
+                $expectedTypeName,
+                $providedTypeName
+            )
+        );
     }
 }

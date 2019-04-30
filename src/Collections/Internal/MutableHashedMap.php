@@ -69,8 +69,18 @@ class MutableHashedMap extends HashedMap implements MutableMap
      */
     public function putAll(Map $from): void
     {
-        TypeAssurance::ensureContainedArgumentType($this->getKeyType(), 1, $from->getKeyType(), Map::class . ' of keys');
-        TypeAssurance::ensureContainedArgumentType($this->getValueType(), 1, $from->getValueType(), Map::class . ' of values');
+        TypeAssurance::ensureContainedArgumentType(
+            $this->getKeyType(),
+            1,
+            $from->getKeyType(),
+            Map::class . ' of keys'
+        );
+        TypeAssurance::ensureContainedArgumentType(
+            $this->getValueType(),
+            1,
+            $from->getValueType(),
+            Map::class . ' of values'
+        );
 
         foreach ($from as $entry) {
             $this->put($entry->getKey(), $entry->getValue());

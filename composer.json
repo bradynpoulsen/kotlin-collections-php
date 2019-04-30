@@ -34,6 +34,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html=build/coverage/html"
+        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html=build/coverage/html",
+        "md": "vendor/bin/phpmd src text phpmd.xml",
+        "cs": "vendor/bin/phpcs --standard=phpcs.xml"
     }
 }

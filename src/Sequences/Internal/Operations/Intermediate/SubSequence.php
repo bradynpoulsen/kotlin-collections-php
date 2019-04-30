@@ -74,16 +74,14 @@ final class SubSequence extends AbstractLinkedIterationSequence implements DropT
         return new class($this) extends AbstractDisposableIteration {
             protected function computeNext(): void
             {
-                while (
-                    $this->getNextPosition() < $this->getSequence()->getStartIndex()
+                while ($this->getNextPosition() < $this->getSequence()->getStartIndex()
                     && $this->getOperation()->hasNext()
                 ) {
                     $this->getOperation()->next();
                     $this->markSkipped();
                 }
 
-                if (
-                    $this->getNextPosition() > $this->getSequence()->getEndIndex()
+                if ($this->getNextPosition() > $this->getSequence()->getEndIndex()
                     || !$this->getOperation()->hasNext()
                 ) {
                     $this->done();

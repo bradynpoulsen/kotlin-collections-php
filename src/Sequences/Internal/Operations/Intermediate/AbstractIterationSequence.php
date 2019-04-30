@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Sequences\Internal\Operations\Intermediate;
 
 use BradynPoulsen\Kotlin\Sequences\Common\SequenceCollectorTrait;
+use BradynPoulsen\Kotlin\Sequences\Common\SequenceCommonTrait;
 use BradynPoulsen\Kotlin\Sequences\Common\SequenceIntermediateOperationsTrait;
 use BradynPoulsen\Kotlin\Sequences\Internal\IterationSequence;
 use BradynPoulsen\Kotlin\Sequences\Sequence;
@@ -15,8 +16,7 @@ use Traversable;
  */
 abstract class AbstractIterationSequence implements IterationSequence
 {
-    use SequenceCollectorTrait;
-    use SequenceIntermediateOperationsTrait;
+    use SequenceCommonTrait;
 
     /**
      * @var Type

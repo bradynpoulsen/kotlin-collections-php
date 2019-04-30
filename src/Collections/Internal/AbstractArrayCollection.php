@@ -27,7 +27,6 @@ use function BradynPoulsen\Kotlin\Collections\setOf;
 abstract class AbstractArrayCollection implements Collection
 {
     use CollectionContainsTrait;
-    use CollectionOperatorsTrait;
 
     /**
      * @var mixed[]

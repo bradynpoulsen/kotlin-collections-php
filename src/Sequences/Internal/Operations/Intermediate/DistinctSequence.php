@@ -21,9 +21,7 @@ final class DistinctSequence extends AbstractLinkedIterationSequence
     public function __construct(Sequence $source, ?callable $selector = null)
     {
         parent::__construct($source);
-        $this->selector = $selector ?? function ($it) {
-            return $it;
-        };
+        $this->selector = $selector;
     }
 
     public function getIteration(): TypedIteration
@@ -44,7 +42,9 @@ final class DistinctSequence extends AbstractLinkedIterationSequence
             {
                 while ($this->getOperation()->hasNext()) {
                     $element = $this->getOperation()->next();
-                    $key = call_user_func($this->getSequence()->getSelector(), $element);
+                    $key = $this->getSequence()->getSelector() !== null
+                        ? call_user_func($this->getSequence()->getSelector(), $element)
+                        : $element;
 
                     if ($this->observed->add($key)) {
                         $this->setNext($element);
@@ -62,7 +62,7 @@ final class DistinctSequence extends AbstractLinkedIterationSequence
         };
     }
 
-    public function getSelector(): callable
+    public function getSelector(): ?callable
     {
         return $this->selector;
     }

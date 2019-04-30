@@ -48,7 +48,7 @@ final class FilteringSequence extends AbstractLinkedIterationSequence
                         array_unshift($filterArgs, $this->getNextPosition());
                     }
 
-                    if ($this->getSequence()->getSendWhen() === (bool)call_user_func_array(
+                    if ($this->getSequence()->isSendWhen() === (bool)call_user_func_array(
                         $this->getSequence()->getPredicate(),
                         $filterArgs
                     )) {
@@ -79,7 +79,7 @@ final class FilteringSequence extends AbstractLinkedIterationSequence
     /**
      * @return bool
      */
-    public function getSendWhen(): bool
+    public function isSendWhen(): bool
     {
         return $this->sendWhen;
     }

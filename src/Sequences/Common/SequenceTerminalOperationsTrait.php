@@ -663,7 +663,7 @@ trait SequenceTerminalOperationsTrait
         assert($this instanceof Sequence);
         TypeAssurance::ensureContainedArgumentType(Types::integer(), 0, $this->getType(), Sequence::class);
         $total = 0;
-        foreach ($this as $index => $element) {
+        foreach ($this as $element) {
             $total += $element;
         }
         return $total;
@@ -695,7 +695,7 @@ trait SequenceTerminalOperationsTrait
         assert($this instanceof Sequence);
         TypeAssurance::ensureContainedArgumentType(Types::float(), 0, $this->getType(), Sequence::class);
         $total = 0.0;
-        foreach ($this as $index => $element) {
+        foreach ($this as $element) {
             $total += $element;
         }
         return $total;

@@ -41,7 +41,7 @@ trait SequenceIntermediateOperationsTrait
     public function chunked(int $size): Sequence
     {
         assert($this instanceof Sequence);
-        return $this->windowed($size, $size, $partialWindows = true);
+        return $this->windowed($size, $size, /*$partialWindows =*/ true);
     }
 
     /**
@@ -84,7 +84,7 @@ trait SequenceIntermediateOperationsTrait
     public function dropUntil(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new DropWhileSequence($this, $predicate, $dropWhile = false);
+        return new DropWhileSequence($this, $predicate, /*$dropWhile =*/ false);
     }
 
     /**
@@ -93,7 +93,7 @@ trait SequenceIntermediateOperationsTrait
     public function dropWhile(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new DropWhileSequence($this, $predicate, $dropWhile = true);
+        return new DropWhileSequence($this, $predicate, /*$dropWhile =*/ true);
     }
 
     /**
@@ -102,7 +102,7 @@ trait SequenceIntermediateOperationsTrait
     public function filter(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new FilteringSequence($this, $predicate, $sendWhen = true);
+        return new FilteringSequence($this, $predicate, /*$sendWhen =*/ true);
     }
 
     /**
@@ -111,7 +111,7 @@ trait SequenceIntermediateOperationsTrait
     public function filterIndexed(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new FilteringSequence($this, $predicate, $sendWhen = true, $includeIndex = true);
+        return new FilteringSequence($this, $predicate, /*$sendWhen =*/ true, /*$includeIndex =*/ true);
     }
 
     /**
@@ -120,7 +120,7 @@ trait SequenceIntermediateOperationsTrait
     public function filterIndexedNot(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new FilteringSequence($this, $predicate, $sendWhen = false, $includeIndex = true);
+        return new FilteringSequence($this, $predicate, /*$sendWhen =*/ false, /*$includeIndex =*/ true);
     }
 
     /**
@@ -147,7 +147,7 @@ trait SequenceIntermediateOperationsTrait
     public function filterNot(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new FilteringSequence($this, $predicate, $sendWhen = false);
+        return new FilteringSequence($this, $predicate, /*$sendWhen =*/ false);
     }
 
     /**
@@ -192,7 +192,7 @@ trait SequenceIntermediateOperationsTrait
     public function mapIndexed(Type $newType, callable $transform): Sequence
     {
         assert($this instanceof Sequence);
-        return new TransformingSequence($this, $newType, $transform, $includeIndex = true);
+        return new TransformingSequence($this, $newType, $transform, /*$includeIndex =*/ true);
     }
 
     /**
@@ -275,12 +275,12 @@ trait SequenceIntermediateOperationsTrait
         assert($this instanceof Sequence);
         return new SortingSequence(
             $this,
-            function ($a, $b) use ($selector): int {
-                $aValue = $selector($a);
-                $bValue = $selector($b);
-                if ($aValue === $bValue) {
+            function ($first, $second) use ($selector): int {
+                $firstValue = $selector($first);
+                $secondValue = $selector($second);
+                if ($firstValue === $secondValue) {
                     return 0;
-                } elseif ($aValue < $bValue) {
+                } elseif ($firstValue < $secondValue) {
                     return -1;
                 }
                 return 1;
@@ -301,7 +301,20 @@ trait SequenceIntermediateOperationsTrait
     public function sortedByDescending(callable $selector): Sequence
     {
         assert($this instanceof Sequence);
-        return new SortingSequence($this, null, $ascending = false);
+        return new SortingSequence(
+            $this,
+            function ($first, $second) use ($selector): int {
+                $firstValue = $selector($first);
+                $secondValue = $selector($second);
+                if ($firstValue === $secondValue) {
+                    return 0;
+                } elseif ($firstValue < $secondValue) {
+                    return -1;
+                }
+                return 1;
+            },
+            /*$ascending =*/ false
+        );
     }
 
     /**
@@ -310,7 +323,7 @@ trait SequenceIntermediateOperationsTrait
     public function sortedDescending(): Sequence
     {
         assert($this instanceof Sequence);
-        return new SortingSequence($this, null, $ascending = false);
+        return new SortingSequence($this, null, /*$ascending =*/ false);
     }
 
     /**
@@ -328,7 +341,7 @@ trait SequenceIntermediateOperationsTrait
     public function sortedWithDescending(callable $comparator): Sequence
     {
         assert($this instanceof Sequence);
-        return new SortingSequence($this, $comparator, $ascending = false);
+        return new SortingSequence($this, $comparator, /*$ascending =*/ false);
     }
 
     /**
@@ -352,7 +365,7 @@ trait SequenceIntermediateOperationsTrait
     public function takeUntil(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new TakeWhileSequence($this, $predicate, $sendWhile = false);
+        return new TakeWhileSequence($this, $predicate, /*$sendWhile =*/ false);
     }
 
     /**
@@ -361,7 +374,7 @@ trait SequenceIntermediateOperationsTrait
     public function takeWhile(callable $predicate): Sequence
     {
         assert($this instanceof Sequence);
-        return new TakeWhileSequence($this, $predicate, $sendWhile = true);
+        return new TakeWhileSequence($this, $predicate, /*$sendWhile =*/ true);
     }
 
     /**
@@ -403,9 +416,12 @@ trait SequenceIntermediateOperationsTrait
     {
         assert($this instanceof Sequence);
         return $this
-            ->windowed(2, $step = 1, $partialWindows = false)
-            ->map(Types::instance(Pair::class), function (ListOf $pair): Pair {
-                return new Pair($pair[0], $pair[1]);
-            });
+            ->windowed(2, /*$step =*/ 1, /*$partialWindows =*/ false)
+            ->map(
+                Types::instance(Pair::class),
+                function (ListOf $pair): Pair {
+                    return new Pair($pair[0], $pair[1]);
+                }
+            );
     }
 }

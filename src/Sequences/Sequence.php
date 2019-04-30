@@ -4,15 +4,21 @@ declare(strict_types=1);
 namespace BradynPoulsen\Kotlin\Sequences;
 
 use BradynPoulsen\Kotlin\Collections\ListOf;
+use BradynPoulsen\Kotlin\Collections\Map;
 use BradynPoulsen\Kotlin\Collections\MutableListOf;
+use BradynPoulsen\Kotlin\Collections\MutableMap;
 use BradynPoulsen\Kotlin\Collections\MutableSet;
 use BradynPoulsen\Kotlin\Collections\Set;
 use BradynPoulsen\Kotlin\InvalidArgumentException;
 use BradynPoulsen\Kotlin\InvalidStateException;
+use BradynPoulsen\Kotlin\NoSuchElementException;
 use BradynPoulsen\Kotlin\Pair;
 use BradynPoulsen\Kotlin\Types\Type;
+use BradynPoulsen\Kotlin\Types\Types;
+use BradynPoulsen\Kotlin\UnsupportedOperationException;
 use IteratorAggregate;
 use Traversable;
+use TypeError;
 
 /**
  * A sequence of values that can be iterated over. The values are evaluated lazily, and the sequence
@@ -51,6 +57,8 @@ interface Sequence extends IteratorAggregate
      */
     public function getIterator(): Traversable;
 
+    /*** TERMINAL COLLECTORS ***/
+
     /**
      * Collect all of the items in this sequence into an array.
      *
@@ -74,7 +82,7 @@ interface Sequence extends IteratorAggregate
     public function toList(?MutableListOf $target = null): ListOf;
 
     /**
-     * Collection all of the items in this sequence into a {@see Set}.
+     * Collect all of the items in this sequence into a {@see Set}.
      *
      * @effect terminal
      *
@@ -388,8 +396,8 @@ interface Sequence extends IteratorAggregate
     public function sortedDescending(): Sequence;
 
     /**
-     * Returns a {@see Sequence} that yields elements of this sequence sorted according to the specified
-     * comparator.
+     * Returns a {@see Sequence} that yields elements of this sequence sorted according to the given
+     * $comparator.
      *
      * @effect intermediate
      * @state stateful
@@ -401,8 +409,8 @@ interface Sequence extends IteratorAggregate
     public function sortedWith(callable $comparator): Sequence;
 
     /**
-     * Returns a {@see Sequence} that yields elements of this sequence sorted according to the specified
-     * comparator reversed.
+     * Returns a {@see Sequence} that yields elements of this sequence sorted according to the given
+     * $comparator reversed.
      *
      * @effect intermediate
      * @state stateful
@@ -496,4 +504,519 @@ interface Sequence extends IteratorAggregate
      * @return Sequence Sequence<T> -> Sequence<Pair<T, T>>
      */
     public function zipWithNext(): Sequence;
+
+    /*** TERMINAL OPERATIONS ***/
+
+    /**
+     * Returns `true` if all contained elements match the given $predicate.
+     * Returns `true` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return bool Sequence<T> -> bool
+     */
+    public function all(callable $predicate): bool;
+
+    /**
+     * Returns `true` if any contained elements match the given $predicate.
+     * Returns `false` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return bool Sequence<T> -> bool
+     */
+    public function any(callable $predicate): bool;
+
+    /**
+     * Returns a {@see Map} containing key-value pairs created by the given $transform function applied
+     * to each element of this sequence.
+     *
+     * @effect terminal
+     *
+     * @param Type $keyType Type<K>
+     * @param Type $valueType Type<V>
+     * @param callable $transform (T) -> Pair<K, V>
+     * @return Map Sequence<T> -> Map<K, V>
+     */
+    public function associate(Type $keyType, Type $valueType, callable $transform): Map;
+
+    /**
+     * Returns a {@see Map} containing the elements from this sequence indexed by the key returned from
+     * the given $keySelector.
+     *
+     * @effect terminal
+     *
+     * @param Type $keyType Type<K>
+     * @param callable $keySelector (T) -> K
+     * @return Map Sequence<T> -> Map<K, T>
+     */
+    public function associateBy(Type $keyType, callable $keySelector): Map;
+
+    /**
+     * Populates the given $destination with key-value pairs created by the given $transform function
+     * applied to each element of this sequence.
+     *
+     * @effect terminal
+     *
+     * @param MutableMap $destination MutableMap<K, V>
+     * @param callable $transform (T) -> Pair<K, V>
+     * @return MutableMap Sequence<T> -> MutableMap<K, V>
+     */
+    public function associateTo(MutableMap $destination, callable $transform): MutableMap;
+
+    /**
+     * Populates the given $destination with key-value pairs, where the key is provided by the given
+     * $keySelector function applied to each element and the value is the element itself.
+     *
+     * @effect terminal
+     *
+     * @param MutableMap $destination MutableMap<K, T>
+     * @param callable $keySelector (T) -> K
+     * @return MutableMap Sequence<T> -> MutableMap<K, T>
+     */
+    public function associateByTo(MutableMap $destination, callable $keySelector): MutableMap;
+
+    /**
+     * Returns a {@see Map} containing the elements of this sequence indexed by each element and values
+     * produced by the $valueSelector function.
+     *
+     * @effect terminal
+     *
+     * @param Type $valueType Type<V>
+     * @param callable $valueSelector (T) -> V
+     * @return Map Sequence<T> -> Map<T, V>
+     */
+    public function associateWith(Type $valueType, callable $valueSelector): Map;
+
+    /**
+     * Populates the given $destination with key-value pairs, where the key is the element itself
+     * and the value is provided by the given $valueSelector function applied to each element.
+     *
+     * @effect terminal
+     *
+     * @param MutableMap $destination Map<T, V>
+     * @param callable $valueSelector (T) -> V
+     * @return MutableMap Sequence<T> -> MutableMap<T, V>
+     */
+    public function associateWithTo(MutableMap $destination, callable $valueSelector): MutableMap;
+
+    /**
+     * Returns an average of all values contained in this sequence.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Types::number()} elements.
+     *
+     * @effect terminal
+     *
+     * @return float
+     */
+    public function average(): float;
+
+    /**
+     * Returns an average of all values produced by the given $selector applied to each element
+     * in this sequence.
+     *
+     * A {@see TypeError} is thrown if $selector does not return a {@see Types::number()} value.
+     *
+     * @effect terminal
+     *
+     * @param callable $selector (T) -> int|float
+     * @return float
+     */
+    public function averageBy(callable $selector): float;
+
+    /**
+     * Returns the number of elements in this sequence.
+     *
+     * @effect terminal
+     *
+     * @return int Sequence<T> -> int
+     */
+    public function count(): int;
+
+    /**
+     * Returns the number of elements in this sequence that match the given $predicate.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return int Sequence<T> -> int
+     */
+    public function countBy(callable $predicate): int;
+
+    /**
+     * Returns the first element.
+     *
+     * A {@see NoSuchElementException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T
+     */
+    public function first();
+
+    /**
+     * Returns the first element that matches the given $predicate.
+     *
+     * A {@see NoSuchElementException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T
+     */
+    public function firstBy(callable $predicate);
+
+    /**
+     * Returns the first element that matches the given $predicate, or `null` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T?
+     */
+    public function firstByOrNull(callable $predicate);
+
+    /**
+     * Returns the first element, or `null` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T?
+     */
+    public function firstOrNull();
+
+    /**
+     * Accumulates value starting with the given $initial and applying $calculator on each element.
+     * Returns the given $initial value if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param mixed $initial R
+     * @param callable $calculator (R $accumulated, T $element) -> R
+     * @return mixed Sequence<T> -> R
+     */
+    public function fold($initial, callable $calculator);
+
+    /**
+     * Accumulates value starting with the given $initial and apply $calculator on each element and its index.
+     * Returns the given $initial value if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param mixed $initial R
+     * @param callable $calculator (R $accumulated, int $index, T $element) -> R
+     * @return mixed Sequence<T> -> R
+     */
+    public function foldIndexed($initial, callable $calculator);
+
+    /**
+     * Returns `true` if this sequence contains no elements.
+     *
+     * @effect terminal
+     *
+     * @return bool Sequence<T> -> bool
+     */
+    public function isEmpty(): bool;
+
+    /**
+     * Returns `false` if this sequence contains no elements.
+     *
+     * @effect terminal
+     *
+     * @return bool Sequence<T> -> bool
+     */
+    public function isNotEmpty(): bool;
+
+    /**
+     * Creates a string from all the elements separated by the given $separator and using the given
+     * $prefix and $postfix.
+     *
+     * @effect terminal
+     *
+     * @param string $separator The value to separate each element by
+     * @param string $prefix The value to prefix the resulting string with.
+     * @param string $postfix The value to postfix the resulting string with.
+     * @param int $limit If greater than -1, the maximum number of elements to append before representing
+     *     all remaining values with a single given $truncated placeholder.
+     * @param string $truncated The value to show that elements were truncated for exceeding the given $limit.
+     * @param callable|null $transform (T) -> string Transforming function to prepare each element.
+     * @return string
+     */
+    public function joinToString(
+        string $separator = ", ",
+        string $prefix = "",
+        string $postfix = "",
+        int $limit = -1,
+        string $truncated = "...",
+        ?callable $transform = null
+    ): string;
+
+    /**
+     * Returns the last element.
+     *
+     * A {@see NoSuchElementException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T
+     */
+    public function last();
+
+    /**
+     * Returns the last element that matches the given $predicate.
+     *
+     * A {@see NoSuchElementException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T
+     */
+    public function lastBy(callable $predicate);
+
+    /**
+     * Returns the last element that matches the given $predicate, or `null` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T?
+     */
+    public function lastByOrNull(callable $predicate);
+
+    /**
+     * Returns the last element, or `null` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T?
+     */
+    public function lastOrNull();
+
+    /**
+     * Returns the maximum of all values contained in this sequence.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Types::number()} elements.
+     *
+     * @effect terminal
+     *
+     * @return null|int|float Sequence<T> -> T?
+     */
+    public function max();
+
+    /**
+     * Returns the first element having the largest value of the given $selector.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * A {@see TypeError} is thrown if $selector does not return a {@see Types::number()} value.
+     *
+     * @effect terminal
+     *
+     * @param callable $selector (T) -> number
+     * @return mixed Sequence<T> -> T?
+     */
+    public function maxBy(callable $selector);
+
+    /**
+     * Returns the first element having the largest value according to the provided $comparator.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * @effect terminal
+     *
+     * @param callable $comparator (T $a, T $b) -> int that is less than, equal to, or greater than
+     *     zero if $a is consider respectively less than, equal to, or greater than $b.
+     * @return mixed Sequence<T> -> T?
+     */
+    public function maxWith(callable $comparator);
+
+    /**
+     * Returns the smallest of all values contained in this sequence.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Types::number()} elements.
+     *
+     * @effect terminal
+     *
+     * @return null|int|float Sequence<T> -> T?
+     */
+    public function min();
+
+    /**
+     * Returns the first element having the smallest value of the given $selector.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * A {@see TypeError} is thrown if $selector does not return a {@see Types::number()} value.
+     *
+     * @effect terminal
+     *
+     * @param callable $selector (T) -> number
+     * @return mixed Sequence<T> -> T?
+     */
+    public function minBy(callable $selector);
+
+    /**
+     * Returns the first element having the smallest value according to the provided $comparator.
+     * Returns `null` if there are no elements in this sequence.
+     *
+     * @effect terminal
+     *
+     * @param callable $comparator (T $a, T $b) -> int that is less than, equal to, or greater than
+     *     zero if $a is consider respectively less than, equal to, or greater than $b.
+     * @return mixed Sequence<T> -> T?
+     */
+    public function minWith(callable $comparator);
+
+    /**
+     * Returns `true` if no elements match the given $predicate.
+     * Returns `true` if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return bool Sequence<T> -> bool
+     */
+    public function none(callable $predicate): bool;
+
+    /**
+     * Splits this sequence into a {@see Pair} of {@see ListOf}, where {@see Pair::getFirst()} contains
+     * elements that the given $predicate returns `true` and {@see Pair::getSecond()} contains elements
+     * that return `false`.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return Pair Pair<ListOf<T>, ListOf<T>>
+     */
+    public function partition(callable $predicate): Pair;
+
+    /**
+     * Accumulates value starting with the first element and applying $calculator on each element.
+     * An {@see UnsupportedOperationException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $calculator (S $accumulated, T $element) -> S
+     * @return mixed Sequence<T : S> -> S
+     */
+    public function reduce(callable $calculator);
+
+    /**
+     * Accumulates value starting with the first element and applying $calculator on each element with its index.
+     * An {@see UnsupportedOperationException} is thrown if this sequence is empty.
+     *
+     * @effect terminal
+     *
+     * @param callable $calculator (S $accumulated, int $index, T $element) -> S
+     * @return mixed Sequence<T : S> -> S
+     */
+    public function reduceIndexed(callable $calculator);
+
+    /**
+     * Returns the single element in this sequence.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T
+     * @throws NoSuchElementException if this sequence is empty.
+     * @throws InvalidArgumentException if there was more than one element in this sequence.
+     */
+    public function single();
+
+    /**
+     * Returns the single element in this sequence matching the given $predicate.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T
+     * @throws NoSuchElementException if this sequence is empty.
+     * @throws InvalidArgumentException if there was more than one element that matched the given $predicate.
+     */
+    public function singleBy(callable $predicate);
+
+    /**
+     * Returns the single element in this sequence matching the given $predicate, or `null` if this
+     * sequence is empty or contained more than one element.
+     *
+     * @effect terminal
+     *
+     * @param callable $predicate (T) -> bool
+     * @return mixed Sequence<T> -> T?
+     */
+    public function singleByOrNull(callable $predicate);
+
+    /**
+     * Returns the single element in this sequence, or `null` if this sequence is empty or contained
+     * more than one element.
+     *
+     * @effect terminal
+     *
+     * @return mixed Sequence<T> -> T?
+     */
+    public function singleOrNull();
+
+    /**
+     * Returns a sum of all values contained in this sequence.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Types::integer()} elements.
+     *
+     * @effect terminal
+     *
+     * @return int Sequence<int> -> int
+     */
+    public function sum(): int;
+
+    /**
+     * Returns a sum of all values produced by the given $selector applied to each element
+     * in this sequence.
+     *
+     * A {@see TypeError} is thrown if $selector does not return an {@see Types::integer()} value.
+     *
+     * @effect terminal
+     *
+     * @param callable $selector (T) -> int
+     * @return int Sequence<T> -> int
+     */
+    public function sumBy(callable $selector): int;
+
+    /**
+     * Returns a sum of all values produced by the given $selector applied to each element
+     * in this sequence.
+     *
+     * A {@see TypeError} is thrown if $selector does not return an {@see Types::float()} value.
+     *
+     * @effect terminal
+     *
+     * @param callable $selector (T) -> float
+     * @return float Sequence<T> -> float
+     */
+    public function sumByFloat(callable $selector): float;
+
+    /**
+     * Returns a sum of all values contained in this sequence.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Types::float()} elements.
+     *
+     * @effect terminal
+     *
+     * @return float Sequence<float> -> float
+     */
+    public function sumFloat(): float;
+
+    /**
+     * Return a {@see Pair} of {@see ListOf}, where {@see Pair::getFirst()} contains the first value
+     * each contained pair and {@see Pair::getSecond()} contains the second value.
+     *
+     * A {@see TypeError} is thrown if this sequence does not contain {@see Pair} elements.
+     *
+     * @effect terminal
+     *
+     * @param Type $firstType Type<T>
+     * @param Type $secondType Type<R>
+     * @return Pair Sequence<Pair<T, R>> -> Pair<List<T>, List<R>>
+     */
+    public function unzip(Type $firstType, Type $secondType): Pair;
 }

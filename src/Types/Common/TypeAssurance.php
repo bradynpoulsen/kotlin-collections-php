@@ -147,7 +147,7 @@ final class TypeAssurance
         throw new TypeError(
             sprintf(
                 "Argument %d passed to %s() must be of type %s, %s given, called in %s on line %d",
-                $argument,
+                $argument === 0 ? '$this' : $argument,
                 $methodName,
                 $expectedTypeName,
                 $providedTypeName,

@@ -7,6 +7,7 @@ use BradynPoulsen\Kotlin\Types\Internal\InstanceType;
 use BradynPoulsen\Kotlin\Types\Internal\MixedType;
 use BradynPoulsen\Kotlin\Types\Internal\NothingType;
 use BradynPoulsen\Kotlin\Types\Internal\NullOverrideType;
+use BradynPoulsen\Kotlin\Types\Internal\NumberType;
 use BradynPoulsen\Kotlin\Types\Internal\ScalarType;
 use BradynPoulsen\Kotlin\Types\Internal\StandardType;
 use BradynPoulsen\Kotlin\UnsupportedOperationException;
@@ -37,6 +38,24 @@ final class Types
     public static function stringOrNull(): Type
     {
         return new ScalarType(ScalarType::STRING, true);
+    }
+
+    /**
+     * Type representation of a non-null integer or float.
+     * @return Type
+     */
+    public static function number(): Type
+    {
+        return new NumberType(false);
+    }
+
+    /**
+     * Type representation of a nullable integer or float.
+     * @return Type
+     */
+    public static function numberOrNull(): Type
+    {
+        return new NumberType(true);
     }
 
     /**
@@ -244,8 +263,11 @@ final class Types
         if (is_null($value)) {
             return self::nothingOrNull();
         } elseif (is_scalar($value) || is_resource($value)) {
-            $typeFactory = Closure::fromCallable([self::class, gettype($value)]);
-            return $typeFactory();
+            $type = gettype($value);
+            if ($type === 'double') {
+                $type = 'float';
+            }
+            return call_user_func(Closure::fromCallable([self::class, $type]));
         } elseif (is_callable($value)) {
             return self::callableOf();
         } elseif (is_array($value)) {

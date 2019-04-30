@@ -7,4 +7,5 @@ trait SequenceCommonTrait
 {
     use SequenceCollectorTrait;
     use SequenceIntermediateOperationsTrait;
+    use SequenceTerminalOperationsTrait;
 }
